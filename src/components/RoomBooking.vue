@@ -7,13 +7,13 @@
             <!-- Targets -->
             <q-tab-pane name="tab-1">
                 <q-card>
-                <q-card-main>
-                    <span slot="subtitle">
+                    <q-card-main>
+                        <span slot="subtitle">
                             预约教室请留上海本地手机！当日20:00之前申请，当天审核；超过20:00，次日审核，请注意审核时间，以免耽误活动开展
-                    </span>
-                </q-card-main>
+                        </span>
+                    </q-card-main>
                 </q-card>
-                <q-card >
+                <q-card>
                     <q-card-title>
                         306
                     </q-card-title>
@@ -24,7 +24,7 @@
                             </q-item-side>
                             <q-item-main>
                                 <q-item-tile label>教室类别</q-item-tile>
-                                <q-item-tile sublabel>本科人才协同培养中心</q-item-tile>   
+                                <q-item-tile sublabel>本科人才协同培养中心</q-item-tile>
                             </q-item-main>
                         </q-item>
                         <q-item>
@@ -39,27 +39,16 @@
                     </q-list>
                     <q-collapsible label="预约">
                         <div>
-                            <q-datetime 
-                            v-model="data" 
-                            type="date" 
-                            float-label="Date"
-                            />
-                            
-                            <q-datetime-range
-                            type="time"
-                            format24h
-                            v-model="range"
-                            :min="mintime"
-                            :max="maxtime"
-                            float-label="Select Time"
-                            />
+                            <q-datetime v-model="data" type="date" float-label="Date" />
+
+                            <q-datetime-range type="time" format24h v-model="range" :min="mintime" :max="maxtime" float-label="Select Time" />
                             <br>
                             <q-btn color="primary">
                                 确认
                             </q-btn>
                         </div>
                     </q-collapsible>
-                </q-card>                
+                </q-card>
             </q-tab-pane>
             <q-tab-pane name="tab-2">
                 <q-card>
@@ -73,7 +62,7 @@
                             </q-item-side>
                             <q-item-main>
                                 <q-item-tile label>教室类别</q-item-tile>
-                                <q-item-tile sublabel>本科人才协同培养中心</q-item-tile>   
+                                <q-item-tile sublabel>本科人才协同培养中心</q-item-tile>
                             </q-item-main>
                         </q-item>
                         <q-item>
@@ -113,7 +102,7 @@
 import '../themes/docs-input.styl'
 
 export default {
-  data () {
+  data() {
     return {
       range: {
         from: null,

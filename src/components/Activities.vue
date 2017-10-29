@@ -20,60 +20,7 @@
           </q-card-main>
         </q-card>
         <q-infinite-scroll :handler="loadMore" ref="infiniteScroll">
-          <q-card v-for="i in count" class="full-width" style="padding-top:10px;">
-            <q-card-media overlay-position="bottom">
-              <img src="~statics/quasar-logo.png" height="150px">
-              <!-- Notice the slot="overlay" -->
-              <q-card-title slot="overlay">
-                <div slot="subtitle" style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">【学业辅导】2017版学生手册及诚信守则意见征询活动</div>
-              </q-card-title>
-            </q-card-media>
-            <q-card-separator />
-            <q-list>
-              <q-item>
-                <q-item-side avatar="http://quasar-framework.org/quasar-play/android/statics/boy-avatar.png">
-                </q-item-side>
-                <q-item-main>
-                  <q-item-tile label>王平</q-item-tile>
-                </q-item-main>
-                <q-item-side right>
-                  123 次浏览
-                </q-item-side>
-              </q-item>
-              <q-card-separator />
-              <q-item>
-                <q-item-side>
-                  <q-item-tile color="primary" icon="people" />
-                </q-item-side>
-                <q-item-main>
-                  <q-item-tile label>0/30已报名</q-item-tile>
-                </q-item-main>
-              </q-item>
-              <q-item>
-                <q-item-side>
-                  <q-item-tile color="primary" icon="watch_later" />
-                </q-item-side>
-                <q-item-main>
-                  <q-item-tile label>11-01 16:46 ~ 11-01 16:51</q-item-tile>
-                </q-item-main>
-              </q-item>
-              <q-item>
-                <q-item-side>
-                  <q-item-tile color="primary" icon="room" />
-                </q-item-side>
-                <q-item-main>
-                  <q-item-tile label>上海大学宝山校区 图书馆7Y3</q-item-tile>
-                </q-item-main>
-              </q-item>
-            </q-list>
-            <!-- <q-card-main></q-card-main> -->
-            <q-card-actions align="around">
-              <q-btn color="primary" flat style="width:45%;">
-                <q-icon name="star" color="orange" />收藏</q-btn>
-              <q-btn color="primary" flat style="width:45%;" @click="open = true">
-                <q-icon name="filter_vintage" />报名</q-btn>
-            </q-card-actions>
-          </q-card>
+          <activity-card v-for="(activity,index) in activities" :activity="activity" :key="index" @onFavoriteClick="onFavoriteClick(index)" @onRegisterClick="onRegisterClick(index)"></activity-card>
           <q-spinner-dots slot="message" :size="40"></q-spinner-dots>
         </q-infinite-scroll>
         <!-- </q-pull-to-refresh> -->
@@ -98,8 +45,12 @@
 </template>
 
 <script>
+import ActivityCard from './ActivityCard.vue'
 export default {
-  data () {
+  components: {
+    ActivityCard
+  },
+  data() {
     return {
       phone: '',
       email: '',
@@ -113,6 +64,24 @@ export default {
         full: '0'
       },
       show: true,
+      activities: [
+        {
+          title: '【学业辅导】2017版学生手册及诚信守则意见征询活动】',
+          founder: {
+            avatar:
+              'http://quasar-framework.org/quasar-play/android/statics/boy-avatar.png',
+            name: '王平'
+          },
+          views: 123,
+          enrolls: 0,
+          capacity: 30,
+          location: '上海大学宝山校区 图书馆7Y3',
+          favorite: true,
+          register: true,
+          start: '11/06 11:08',
+          end: '11/06 11:08'
+        }
+      ],
       options: {
         location: [
           { label: '全部', value: '0' },
@@ -147,12 +116,25 @@ export default {
       }
     }
   },
+  created() {
+    this.getActivities()
+  },
   methods: {
-    loadMore: function (index, done) {
-      this.count += 10
-      done()
+    onFavoriteClick(index) {
+      console.log('onFavoriteClick', index)
     },
-    refresher (done) {
+    onRegisterClick(index) {
+      this.open = true
+      console.log('onRegisterClick', index)
+    },
+    getActivities() {
+      this.$http.get('/api/activities')
+    },
+    loadMore: function(index, done) {
+      this.count += 10
+      // done()
+    },
+    refresher(done) {
       console.log('done')
       done()
     }
