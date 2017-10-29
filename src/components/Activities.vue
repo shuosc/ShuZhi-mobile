@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div>
     <q-tabs>
       <!-- Tabs - notice slot="title" -->
@@ -95,6 +96,18 @@
       </q-card>
     </q-modal>
   </div>
+=======
+    <div>
+        <q-tabs>
+            <!-- Tabs - notice slot="title" -->
+            <q-tab slot="title" label="全部教室" name="tab-1" />
+            <q-tab slot="title" label="我的预约" name="tab-2" />
+            <!-- Targets -->
+            <q-tab-pane name="tab-1">Tab One</q-tab-pane>
+            <q-tab-pane name="tab-2">Tab Two</q-tab-pane>
+        </q-tabs>
+    </div>
+>>>>>>> 8e2f74644425b6a4fd0653954f20099499f0c832
 </template>
 
 <script>
