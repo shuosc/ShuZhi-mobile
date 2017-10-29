@@ -13,7 +13,7 @@ var
   webpackConfig = require('./webpack.dev.conf'),
   app = express(),
   port = process.env.PORT || config.dev.port,
-  uri = 'http://localhost:' + port
+  uri = 'http://0.0.0.0:' + port
 
 console.log(' Starting dev server with "' + (process.argv[2] || env.platform.theme).bold + '" theme...')
 console.log(' Will listen at ' + uri.bold)

@@ -1,5 +1,5 @@
 <template>
-    <q-toolbar color="primary">
+    <q-toolbar color="primary" >
         <!--
             For Toolbar title, we use
             QToolbarTitle component

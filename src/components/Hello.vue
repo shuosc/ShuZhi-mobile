@@ -1,5 +1,32 @@
 <template>
-  <div class="hello">
+  <div style="display:flex;justify-content:space-around;">
+    <q-card flat @click="$router.push('/activities')">
+      <q-card-title>
+        <div style="color: #a2e2e3">
+          <!-- inheriting color #a2e2e3: -->
+          <q-icon name="alarm" size="5rem" />
+        </div>
+      </q-card-title>
+      <q-card-separator />
+      <q-card-main style="text-align:center;">
+        校园活动
+      </q-card-main>
+    </q-card>
+    <q-card flat @click="$router.push('/room-booking')">
+      <q-card-title>
+        <div style="color: #a2e2e3">
+          <!-- inheriting color #a2e2e3: -->
+          <q-icon name="alarm" size="5rem" />
+        </div>
+      </q-card-title>
+      <q-card-separator />
+      <q-card-main style="text-align:center;">
+        教室预约
+      </q-card-main>
+    </q-card>
+
+  </div>
+
   </div>
 </template>
 
@@ -11,19 +38,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus">
-// @import '~variables'
-
-// .hello
-//   margin-top 50px
-
-//   a
-//     color #35495E
-
-// ul
-//   list-style-type none
-//   padding 0
-
-// li
-//   display inline-block
-//   margin 0 10px
+@import '~variables'
 </style>
