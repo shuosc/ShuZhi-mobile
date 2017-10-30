@@ -4,7 +4,7 @@
       <q-card-title>
         <div style="color: #a2e2e3">
           <!-- inheriting color #a2e2e3: -->
-          <q-icon name="alarm" size="5rem" />
+          <q-icon name="filter_vintage" size="5rem" />
         </div>
       </q-card-title>
       <q-card-separator />

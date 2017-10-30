@@ -14,6 +14,7 @@ import Vue from 'vue'
 // import Quasar from 'quasar'
 import router from './router'
 import Quasar, * as All from 'quasar'
+import axios from 'axios'
 // ...
 Vue.use(Quasar, {
   components: All,
@@ -29,7 +30,7 @@ if (__THEME === 'mat') {
 // import 'quasar-extras/ionicons'
 // import 'quasar-extras/fontawesome'
 // import 'quasar-extras/animate'
-
+Vue.prototype.$http = axios
 /* eslint-disable no-new */
 new Vue({
   el: '#q-app',

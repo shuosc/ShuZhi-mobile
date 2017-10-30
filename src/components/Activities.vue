@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-tabs>
+    <q-tabs v-model="selectedTab">
       <!-- Tabs - notice slot="title" -->
       <q-tab default slot="title" label="全部活动" name="tab-1" />
       <q-tab slot="title" label="我的收藏" name="tab-2" />
@@ -19,13 +19,24 @@
             </q-collapsible>
           </q-card-main>
         </q-card>
-        <q-infinite-scroll :handler="loadMore" ref="infiniteScroll">
+        <q-infinite-scroll :handler="loadMore" ref="infiniteScroll" style="text-align:center;">
           <activity-card v-for="(activity,index) in activities" :activity="activity" :key="index" @onFavoriteClick="onFavoriteClick(index)" @onRegisterClick="onRegisterClick(index)"></activity-card>
           <q-spinner-dots slot="message" :size="40"></q-spinner-dots>
         </q-infinite-scroll>
         <!-- </q-pull-to-refresh> -->
       </q-tab-pane>
-      <q-tab-pane name="tab-2">Tab Two</q-tab-pane>
+      <q-tab-pane name="tab-2">
+        <q-infinite-scroll :handler="loadMore" ref="infiniteScroll" style="text-align:center;">
+          <activity-card v-for="(activity,index) in activities" :activity="activity" :key="index" @onFavoriteClick="onFavoriteClick(index)" @onRegisterClick="onRegisterClick(index)"></activity-card>
+          <q-spinner-dots slot="message" :size="40"></q-spinner-dots>
+        </q-infinite-scroll>
+      </q-tab-pane>
+      <q-tab-pane name="tab-3">
+        <q-infinite-scroll :handler="loadMore" ref="infiniteScroll" style="text-align:center;">
+          <activity-card v-for="(activity,index) in activities" :activity="activity" :key="index" @onFavoriteClick="onFavoriteClick(index)" @onRegisterClick="onRegisterClick(index)"></activity-card>
+          <q-spinner-dots slot="message" :size="40"></q-spinner-dots>
+        </q-infinite-scroll>
+      </q-tab-pane>
     </q-tabs>
     <q-modal v-model="open" minimized ref="basicModal">
       <q-card flat>
@@ -37,7 +48,7 @@
         </q-card-main>
         <q-card-actions align="around">
           <q-btn @click.native="open = false" label="Close" style="width:45%;">取消</q-btn>
-          <q-btn @click.native="open = false" label="Close" style="width:45%;">报名</q-btn>
+          <q-btn @click.native="register()" label="Close" style="width:45%;">报名</q-btn>
         </q-card-actions>
       </q-card>
     </q-modal>
@@ -45,6 +56,14 @@
 </template>
 
 <script>
+import {
+  Loading,
+  Dialog
+  // optional!, for example below
+  // with custom spinner
+  // QSpinnerGears
+} from 'quasar'
+
 import ActivityCard from './ActivityCard.vue'
 export default {
   components: {
@@ -52,6 +71,7 @@ export default {
   },
   data() {
     return {
+      selectedTab: '',
       phone: '',
       email: '',
       open: false,
@@ -63,6 +83,7 @@ export default {
         categroy: '0',
         full: '0'
       },
+      index: 0,
       show: true,
       activities: [
         {
@@ -77,9 +98,10 @@ export default {
           capacity: 30,
           location: '上海大学宝山校区 图书馆7Y3',
           favorite: true,
-          register: true,
+          register: false,
           start: '11/06 11:08',
-          end: '11/06 11:08'
+          end: '11/06 11:08',
+          detail: ''
         }
       ],
       options: {
@@ -119,16 +141,50 @@ export default {
   created() {
     this.getActivities()
   },
+  watch: {
+    search: {
+      deep: true,
+      handler: function() {
+        this.getActivities()
+      }
+    }
+  },
   methods: {
+    register() {
+      // let index = this.index
+      Loading.show()
+      Loading.hide()
+      Dialog.create({
+        title: '提示',
+        message: '您已成功报名此活动',
+        buttons: [
+          {
+            label: '确定',
+            handler: () => {
+              this.open = false
+            }
+          }
+        ]
+      })
+    },
     onFavoriteClick(index) {
+      this.index = index
       console.log('onFavoriteClick', index)
+      if (this.activities[index].favorite) {
+      } else {
+      }
     },
     onRegisterClick(index) {
-      this.open = true
       console.log('onRegisterClick', index)
+      this.index = index
+      if (this.activities[index].register) {
+      } else {
+        this.open = true
+      }
     },
     getActivities() {
-      this.$http.get('/api/activities')
+      console.log('/search')
+      // this.$http.get('/api/activities')
     },
     loadMore: function(index, done) {
       this.count += 10
