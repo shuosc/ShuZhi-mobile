@@ -1,9 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Hello from '@/Hello.vue'
+import Home from '@/Home.vue'
 import Activities from '@/Activities.vue'
 import RoomBooking from '@/RoomBooking.vue'
+import News from '@/News.vue'
+import Clubs from '@/Clubs.vue'
+import Query from '@/Query.vue'
 Vue.use(VueRouter)
 
 /*
@@ -29,8 +32,11 @@ export default new VueRouter({
    */
 
   routes: [
-    { path: '/', component: Hello },
+    { path: '/', component: Home },
     { path: '/activities', component: Activities },
-    { path: '/room-booking', component: RoomBooking }
+    { path: '/room-booking', component: RoomBooking },
+    { path: '/news', component: News },
+    { path: '/clubs', component: Clubs },
+    { path: '/query', component: Query }
   ]
 })
