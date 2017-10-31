@@ -9,7 +9,7 @@
             <q-icon name="home" />
           </q-btn>
           <q-toolbar-title>
-            孰知网
+            iSHU
           </q-toolbar-title>
           <!-- <q-btn flat @click="$refs.layout.toggleRight()">
             <q-icon name="more vert" />

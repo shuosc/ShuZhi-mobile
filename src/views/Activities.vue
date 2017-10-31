@@ -64,7 +64,7 @@ import {
   // QSpinnerGears
 } from 'quasar'
 
-import ActivityCard from './ActivityCard.vue'
+import ActivityCard from '@/ActivityCard.vue'
 export default {
   components: {
     ActivityCard

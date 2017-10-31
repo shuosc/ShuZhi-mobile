@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Home from '@/Home.vue'
-import Activities from '@/Activities.vue'
-import RoomBooking from '@/RoomBooking.vue'
-import News from '@/News.vue'
-import Clubs from '@/Clubs.vue'
-import Query from '@/Query.vue'
+import Home from './views/Home.vue'
+import Activities from './views/Activities.vue'
+import RoomBooking from './views/RoomBooking.vue'
+import News from './views/News.vue'
+import Clubs from './views/Clubs.vue'
+import Query from './views/Query.vue'
 Vue.use(VueRouter)
 
 /*
@@ -14,7 +14,7 @@ Vue.use(VueRouter)
  * to lazy load routes.
 function load (component) {
   // '@' is aliased to src/components
-  return () => import(`@/${component}.vue`)
+  return () => import(`views/${component}.vue`)
 }
 */
 

@@ -1,11 +1,12 @@
 <template>
 <div>
   <div style="display:flex;justify-content:space-around;">
-   <q-card flat @click="$router.push('/activities')">
+   <q-card flat @click="$router.push('/news')">
       <q-card-title>
         <div style="color: #a2e2e3">
           <!-- inheriting color #a2e2e3: -->
-          <q-icon name="filter_vintage" size="5rem" />
+          <!-- <q-icon name="filter_vintage" size="5rem" /> -->
+          <img src="~assets/school-info.png" />
         </div>
       </q-card-title>
       <q-card-separator />
@@ -17,7 +18,8 @@
       <q-card-title>
         <div style="color: #a2e2e3">
           <!-- inheriting color #a2e2e3: -->
-          <q-icon name="filter_vintage" size="5rem" />
+          <img src="~assets/school-activity.png" />
+          <!-- <q-icon name="filter_vintage" size="5rem" /> -->
         </div>
       </q-card-title>
       <q-card-separator />
@@ -27,11 +29,11 @@
     </q-card>
   </div>
   <div style="display:flex;justify-content:space-around;">
-    <q-card flat @click="$router.push('/activities')">
+    <q-card flat @click="$router.push('/query')">
       <q-card-title>
         <div style="color: #a2e2e3">
-          <!-- inheriting color #a2e2e3: -->
-          <q-icon name="filter_vintage" size="5rem" />
+          <!-- inheriting color #a2e2e3: --><img src="~assets/school-query.png" />
+          <!-- <q-icon name="filter_vintage" size="5rem" /> -->
         </div>
       </q-card-title>
       <q-card-separator />
@@ -43,21 +45,23 @@
       <q-card-title>
         <div style="color: #a2e2e3">
           <!-- inheriting color #a2e2e3: -->
-          <q-icon name="alarm" size="5rem" />
+          <!-- <q-icon name="alarm" size="5rem" /> -->
+          <img src="~assets/school-service.png" />
         </div>
       </q-card-title>
       <q-card-separator />
       <q-card-main style="text-align:center;">
-        教室预约
+        场地预约
       </q-card-main>
     </q-card>
   </div>
   <div style="display:flex;justify-content:space-around;">
-    <q-card flat @click="$router.push('/activities')">
+    <q-card flat @click="$router.push('/clubs')">
       <q-card-title>
         <div style="color: #a2e2e3">
           <!-- inheriting color #a2e2e3: -->
-          <q-icon name="filter_vintage" size="5rem" />
+          <!-- <q-icon name="filter_vintage" size="5rem" /> -->
+          <img src="~assets/community-signup.png" />
         </div>
       </q-card-title>
       <q-card-separator />
@@ -65,7 +69,7 @@
         社团组织
       </q-card-main>
     </q-card>
-    <q-card flat @click="$router.push('/activities')">
+    <q-card flat @click="linkPC">
       <q-card-title>
         <div style="color: #a2e2e3">
           <!-- inheriting color #a2e2e3: -->
@@ -84,11 +88,19 @@
 
 <script>
 export default {
-  name: 'hello'
+  name: 'hello',
+  methods: {
+    linkPC: function() {
+      window.open('http://www.sz.shu.edu.cn')
+    }
+  }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus">
 @import '~variables'
+img
+  width:5rem
+  heightL:5rem
 </style>
