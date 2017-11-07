@@ -1,18 +1,9 @@
 <template>
-  <q-card class="full-width" flat @click="open=true" style="margin:0;">
-    <q-card-main style="text-align:left;">
+  <q-card class="full-width" flat style="margin:0;">
+    <q-card-main style="text-align:left;" class="title">
       {{news.title}}
     </q-card-main>
     <q-card-separator />
-    <q-modal v-model="open">
-      <q-card>
-        <q-card-title>{{news.title}}</q-card-title>
-        <q-card-main v-html="news.detail"></q-card-main>
-        <q-card-actions align="around">
-          <q-btn color="primary" @click="open = false" class="full-width">关闭</q-btn>
-        </q-card-actions>
-      </q-card>
-    </q-modal>
   </q-card>
 </template>
 
@@ -27,6 +18,10 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 </style>

@@ -139,6 +139,7 @@ export default {
     }
   },
   created() {
+    this.getCategories()
     this.getActivities()
   },
   watch: {
@@ -182,8 +183,29 @@ export default {
         this.open = true
       }
     },
+    getCategories() {
+      console.log('cate')
+      this.$http.get('/api/HuoDong/HuoDLB/GetHuoDLB').then(response => {
+        console.log(response)
+      })
+    },
     getActivities() {
       console.log('/search')
+      this.$http
+        .get('/api/HuoDong/HuoDXX/GetAllHuoDXX', {
+          params: {
+            huodmc: '',
+            huodlb: 0,
+            huodddxq: '全部',
+            huodsj: '全部',
+            baomzt: '全部',
+            pageSize: 10,
+            pageNumber: 1
+          }
+        })
+        .then(response => {
+          console.log(response)
+        })
       // this.$http.get('/api/activities')
     },
     loadMore: function(index, done) {

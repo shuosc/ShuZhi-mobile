@@ -46,7 +46,7 @@ module.exports = {
     // https://github.com/chimurai/http-proxy-middleware
     proxyTable: {
       '/api': {
-        target: 'http://shuszapi.sh-sdhr.com/',
+        target: 'http://shuszapi.sh-sdhr.com',
         changeOrigin: true,
         // pathRewrite: {
         //   '^/api': ''

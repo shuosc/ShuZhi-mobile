@@ -11,8 +11,13 @@
           <q-toolbar-title>
             iSHU
           </q-toolbar-title>
-          <q-btn flat @click="$refs.layout.toggleRight()">
-            <q-icon name="more vert" />
+          <q-btn flat v-if="$user.login" @click="$refs.layout.toggleRight()">
+            <!-- <q-icon name="more vert" /> -->
+            {{$user.name}}
+          </q-btn>
+          <q-btn flat v-else @click="$refs.layout.toggleRight()">
+            <!-- <q-icon name="more vert" /> -->
+            登陆
           </q-btn>
         </q-toolbar>
         <!-- Navigation -->
@@ -47,6 +52,7 @@
 /*
  * Root component
  */
+import { Toast } from 'quasar'
 import Toolbar from '@/Toolbar.vue'
 export default {
   comments: {
@@ -68,9 +74,13 @@ export default {
           passWord: this.passWord
         })
         .then(response => {
+          this.$user.ID = this.userName
+          this.$user.name = '刘星'
+          this.$user.login = true
           console.log(response)
+          this.open = false
+          Toast.create('成功登陆')
         })
-      this.open = false
       //
     }
   }
