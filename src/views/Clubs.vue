@@ -53,6 +53,7 @@ export default {
       email: '',
       open: false,
       count: 10,
+      page: 1,
       search: {
         name: '',
         categroy: '0',
@@ -60,18 +61,7 @@ export default {
       },
       index: 0,
       show: true,
-      clubs: [
-        {
-          name: '【组织】日本与同好会',
-          stars: 5,
-          charger: '董永杰',
-          teacher: '董永杰',
-          enrolls: 1000,
-          detail: '日语同好会成立于2009年5月，由外国语学院日语系学生自发组织创建，面向全校招募会员。至今为止会员人数已经超过1000人，其中包括日语专业的学生和其他对日语学习和日本文化感兴趣的学生。秉承“因为你们，我们将做的更好”这一宗旨，日语同好会已在老师的指导和学生的支持下开展了许多丰富多彩的活动，社团目标是希望能向更多的同学提供一个将日语学习与各种有趣的活动相结合，为喜欢日语、对日本文化感兴趣的同学提供一个集聚一堂研究日语、各抒己见、展示才艺的平台。通过寓教于乐，从而实现快乐学习日语的目标！',
-          favorite: true,
-          register: false
-        }
-      ],
+      clubs: [],
       options: {
         level: [
           { label: '全部', value: '0' },
@@ -91,13 +81,13 @@ export default {
     }
   },
   created() {
-    this.getActivities()
+    this.getClubs()
   },
   watch: {
     search: {
       deep: true,
       handler: function() {
-        this.getActivities()
+        this.getClubs()
       }
     }
   },
@@ -134,12 +124,40 @@ export default {
         this.open = true
       }
     },
-    getActivities() {
-      console.log('/search')
-      // this.$http.get('/api/activities')
+    getClubs(done) {
+      this.$http
+        .get('/api/ZuZhi/ZuZXX/GetAllZuZXX', {
+          params: {
+            zuzmc: '',
+            zuzjb: '全部',
+            zuzlb: '全部',
+            pageSize: 10,
+            pageNumber: this.page
+          }
+        })
+        .then(response => {
+          console.log(response)
+          for (let item of response.data.data.zuzxx) {
+            let club = {
+              name: item.ZuZMC,
+              stars: parseInt(item.XingJi),
+              charger: item.ZuZLDRXM,
+              teacher: item.ZhiDLSXM,
+              logo: item.ZuZLogo,
+              enrolls: item.ChengYS,
+              detail: item.ZuZJS,
+              favorite: false,
+              register: false
+            }
+            this.clubs.push(club)
+          }
+          this.count += 10
+          this.page += 1
+          done()
+        })
     },
     loadMore: function(index, done) {
-      this.count += 10
+      this.getClubs(done)
       // done()
     },
     refresher(done) {

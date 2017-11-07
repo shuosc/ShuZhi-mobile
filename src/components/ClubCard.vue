@@ -1,7 +1,7 @@
 <template>
   <q-card class="full-width" style="padding-top:10px;">
     <q-card-media overlay-position="bottom">
-      <img src="~statics/quasar-logo.png" height="150px">
+      <img :src="`http://www.sz.shu.edu.cn/Resources/ZuZTX/${club.logo}`" style="height:150px">
       <q-card-title slot="overlay">
         <div slot="subtitle" style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">{{club.name}}</div>
       </q-card-title>
