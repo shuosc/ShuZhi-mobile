@@ -13,42 +13,8 @@
             </span>
           </q-card-main>
         </q-card>
-        <q-card>
-          <q-card-title>
-            306
-          </q-card-title>
-          <q-list>
-            <q-item>
-              <q-item-side>
-                <q-item-tile color="primary" icon="bookmark" />
-              </q-item-side>
-              <q-item-main>
-                <q-item-tile label>教室类别</q-item-tile>
-                <q-item-tile sublabel>本科人才协同培养中心</q-item-tile>
-              </q-item-main>
-            </q-item>
-            <q-item>
-              <q-item-side>
-                <q-item-tile color="primary" icon="event seat" />
-              </q-item-side>
-              <q-item-main>
-                <q-item-tile label>教室容量</q-item-tile>
-                <q-item-tile sublabel>80</q-item-tile>
-              </q-item-main>
-            </q-item>
-          </q-list>
-          <q-collapsible label="预约">
-            <div>
-              <q-datetime v-model="data" type="date" float-label="日期" />
-
-              <q-datetime-range type="time" format24h v-model="range" :min="mintime" :max="maxtime" float-label="选择时间" />
-              <br>
-              <q-btn color="primary">
-                确认
-              </q-btn>
-            </div>
-          </q-collapsible>
-        </q-card>
+        <room-booking-card v-for="(room,index) in rooms" :room="room" :key="index">
+        </room-booking-card>
       </q-tab-pane>
       <q-tab-pane name="tab-2">
         <q-card>
@@ -89,28 +55,87 @@
               </q-item-side>
               <q-item-main>
                 <q-item-tile label>预约时间段</q-item-tile>
-                <q-item-tile sublabel>{{range.from}}-{{range.to}}</q-item-tile>
+                <q-item-tile sublabel></q-item-tile>
               </q-item-main>
             </q-item>
           </q-list>
         </q-card>
       </q-tab-pane>
     </q-tabs>
+    <q-modal v-model="open" minimized ref="basicModal">
+      <q-card flat>
+        <q-card-title>请填写您的联系方式完成报名</q-card-title>
+        <!-- <q-card-separator /> -->
+        <q-card-main>
+          <q-input v-model="phone" type="number" float-label="联系电话" />
+          <q-input v-model="Actname" type="Actname" float-label="活动名称" />
+          <q-datetime v-model="date" float-label="预约日期" />
+          <q-datetime-range  v-model="timerange" type="time" class="full-width"float-label="预约时间" />
+        </q-card-main>
+        <q-card-actions align="around">
+          <q-btn @click.native="open = false" label="Close" style="width:45%;">取消</q-btn>
+          <q-btn @click.native="register()" label="Close" style="width:45%;">预约</q-btn>
+        </q-card-actions>
+      </q-card>
+    </q-modal>
   </div>
 </template>
 <script>
 import '../themes/docs-input.styl'
-
+import RoomBookingCard from '@/RoomBookingCard.vue'
 export default {
+  components: {
+    RoomBookingCard
+  },
   data() {
     return {
-      range: {
-        from: null,
-        to: null
-      },
-      mintime: '6:00',
-      maxtime: '18:00',
-      data: null
+      open: false,
+      rooms: [
+        {
+          num: 306,
+          type: '本科人才协同培养中心',
+          cap: '80'
+        },
+        {
+          num: 309,
+          type: 'balala',
+          cap: '180'
+        }
+      ]
+    }
+  },
+  methods: {
+    create() {
+      this.$http({
+        url: '/api/ChangDXX/ShiWCDYYXX/CreateShiWCDYYXX',
+        method: 'POST',
+        data: JSON.stringify({
+          ZuZXXId: '2',
+          ChangDXXId: '1',
+          YuYRQ: '2017-07-14',
+          YuYSJD: '14:00-16:00',
+          XueHao: this.$user.ID,
+          XingMing: this.$user.name,
+          LianXDH: '13818918989',
+          HuoDMC: '测试',
+          HuoDLX: '1',
+          HuoDJJ: '测试5',
+          HuoDRS: '80'
+        }),
+        contentType: 'application/json',
+        success: function(resp, status) {
+          console.log(resp)
+        }
+      })
+      this.$http({
+        type: 'get',
+        url: '/api/ChangDXX/ShiNCDYYXX/GetShiNCDYYXXByXueHao',
+        data: { xueHao: '16120005', pageSize: 10, pageNumber: 1 },
+        contentType: 'application/json',
+        success: function(resp) {
+          console.log(resp)
+        }
+      })
     }
   }
 }
