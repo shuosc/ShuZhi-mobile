@@ -11,17 +11,17 @@
           <q-toolbar-title>
             iSHU
           </q-toolbar-title>
-          <!-- <q-btn flat @click="$refs.layout.toggleRight()">
+          <q-btn flat @click="$refs.layout.toggleRight()">
             <q-icon name="more vert" />
-          </q-btn> -->
+          </q-btn>
         </q-toolbar>
         <!-- Navigation -->
         <!-- <q-tabs slot="navigation">
-                    <q-route-tab slot="title"  to="/test-layout/about" replace hide="icon" label="About" />
-                    <q-route-tab slot="title"  to="/test-layout/toolbar" replace hide="icon" label="Toolbar" />
-                    <q-route-tab slot="title"  to="/test-layout/tabs" replace label="Tabs" />
-                    <q-route-tab slot="title"  to="/test-layout/drawer" replace label="Drawer" />
-                  </q-tabs> -->
+                      <q-route-tab slot="title"  to="/test-layout/about" replace hide="icon" label="About" />
+                      <q-route-tab slot="title"  to="/test-layout/toolbar" replace hide="icon" label="Toolbar" />
+                      <q-route-tab slot="title"  to="/test-layout/tabs" replace label="Tabs" />
+                      <q-route-tab slot="title"  to="/test-layout/drawer" replace label="Drawer" />
+                    </q-tabs> -->
         <!-- sub-routes get injected here: -->
         <router-view />
         <q-modal v-model="open" minimized ref="basicModal">
@@ -29,8 +29,8 @@
             <q-card-title>登录</q-card-title>
             <!-- <q-card-separator /> -->
             <q-card-main>
-              <q-input v-model="username" type="number" float-label="一卡通" />
-              <q-input v-model="passwd" type="password" float-label="密码" />
+              <q-input v-model="userName" type="number" float-label="一卡通" />
+              <q-input v-model="passWord" type="password" float-label="密码" />
             </q-card-main>
             <q-card-actions align="around">
               <!-- <q-btn @click.native="open = false" label="Close" style="width:45%;">取消</q-btn> -->
@@ -55,13 +55,21 @@ export default {
   data() {
     return {
       open: true,
-      username: '',
-      passwd: ''
+      userName: '',
+      passWord: ''
     }
   },
   created() {},
   methods: {
     login() {
+      this.$http
+        .post('/api/Sys/Users/Login', {
+          userName: this.userName,
+          passWord: this.passWord
+        })
+        .then(response => {
+          console.log(response)
+        })
       this.open = false
       //
     }
@@ -70,5 +78,5 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~variables'
+@import '~variables';
 </style>

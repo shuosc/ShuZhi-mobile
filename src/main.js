@@ -31,6 +31,12 @@ if (__THEME === 'mat') {
 // import 'quasar-extras/fontawesome'
 // import 'quasar-extras/animate'
 Vue.prototype.$http = axios
+Vue.prototype.$api = 'http://shuszapi.sh-sdhr.com'
+Vue.prototype.$user = {
+  userID: '',
+  username: '',
+  login: false
+}
 /* eslint-disable no-new */
 new Vue({
   el: '#q-app',
