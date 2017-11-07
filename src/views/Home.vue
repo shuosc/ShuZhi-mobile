@@ -73,7 +73,7 @@
       <q-card-title>
         <div style="color: #a2e2e3">
           <!-- inheriting color #a2e2e3: -->
-          <q-icon name="filter_vintage" size="5rem" />
+          <img src="~assets/banshi-query.png" />
         </div>
       </q-card-title>
       <q-card-separator />

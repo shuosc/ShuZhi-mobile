@@ -70,7 +70,7 @@
           <q-input v-model="phone" type="number" float-label="联系电话" />
           <q-input v-model="Actname" type="Actname" float-label="活动名称" />
           <q-datetime v-model="date" float-label="预约日期" />
-          <q-datetime-range  v-model="timerange" type="time" class="full-width"float-label="预约时间" />
+          <q-datetime-range v-model="timerange" type="time" class="full-width" float-label="预约时间" />
         </q-card-main>
         <q-card-actions align="around">
           <q-btn @click.native="open = false" label="Close" style="width:45%;">取消</q-btn>
@@ -104,12 +104,22 @@ export default {
       ]
     }
   },
+  created() {
+    this.create()
+  },
   methods: {
+    getMyBookings() {
+      this.$http
+        .get('/api/ChangDXX/ShiNCDYYXX/GetShiNCDYYXXByXueHao', {
+          params: { xueHao: '16120005', pageSize: 10, pageNumber: 1 }
+        })
+        .then(response => {
+          console.log(response)
+        })
+    },
     create() {
-      this.$http({
-        url: '/api/ChangDXX/ShiWCDYYXX/CreateShiWCDYYXX',
-        method: 'POST',
-        data: JSON.stringify({
+      this.$http
+        .post('/api/ChangDXX/ShiWCDYYXX/CreateShiWCDYYXX', {
           ZuZXXId: '2',
           ChangDXXId: '1',
           YuYRQ: '2017-07-14',
@@ -121,21 +131,10 @@ export default {
           HuoDLX: '1',
           HuoDJJ: '测试5',
           HuoDRS: '80'
-        }),
-        contentType: 'application/json',
-        success: function(resp, status) {
-          console.log(resp)
-        }
-      })
-      this.$http({
-        type: 'get',
-        url: '/api/ChangDXX/ShiNCDYYXX/GetShiNCDYYXXByXueHao',
-        data: { xueHao: '16120005', pageSize: 10, pageNumber: 1 },
-        contentType: 'application/json',
-        success: function(resp) {
-          console.log(resp)
-        }
-      })
+        })
+        .then(response => {
+          console.log(response)
+        })
     }
   }
 }
