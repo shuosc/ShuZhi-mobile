@@ -1680,6 +1680,15 @@ duplexer2@^0.1.4:
   dependencies:
     readable-stream "^2.0.2"
 
+earlgrey-runtime@>=0.0.10, earlgrey-runtime@>=0.0.11:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/earlgrey-runtime/-/earlgrey-runtime-0.1.0.tgz#a7624a7f76f10c999abf05ef526f2b7f26dc073c"
+  dependencies:
+    core-js "^2.4.0"
+    kaiser ">=0.0.4"
+    lodash "^4.17.2"
+    regenerator-runtime "^0.9.5"
+
 ecc-jsbn@~0.1.1:
   version "0.1.1"
   resolved "http://registry.npm.taobao.org/ecc-jsbn/download/ecc-jsbn-0.1.1.tgz#0fc73a9ed5f0d53c38193398523ef7e543777505"
@@ -2977,6 +2986,12 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
+kaiser@>=0.0.3, kaiser@>=0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/kaiser/-/kaiser-0.0.4.tgz#d25ddf800640857fadde08dba59ffc7a5a4f5c38"
+  dependencies:
+    earlgrey-runtime ">=0.0.10"
+
 kind-of@^3.0.2:
   version "3.2.2"
   resolved "http://registry.npm.taobao.org/kind-of/download/kind-of-3.2.2.tgz#31ea21a734bab9bbb0f32466d893aea51e4a3c64"
@@ -4103,6 +4118,13 @@ quasar-framework@^0.14.6:
   version "0.14.6"
   resolved "http://registry.npm.taobao.org/quasar-framework/download/quasar-framework-0.14.6.tgz#1770f20aa7c1e771fdabda677354f8a83da44ae0"
 
+quasar@^0.0.18:
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-0.0.18.tgz#8ac0239c9688dc8a6aa567dc5ee848947d7ab4b8"
+  dependencies:
+    earlgrey-runtime ">=0.0.11"
+    kaiser ">=0.0.3"
+
 query-string@^4.1.0:
   version "4.3.4"
   resolved "http://registry.npm.taobao.org/query-string/download/query-string-4.3.4.tgz#bbb693b9ca915c232515b228b1a02b609043dbeb"
@@ -4263,6 +4285,10 @@ regenerate@^1.2.1:
 regenerator-runtime@^0.11.0:
   version "0.11.0"
   resolved "http://registry.npm.taobao.org/regenerator-runtime/download/regenerator-runtime-0.11.0.tgz#7e54fe5b5ccd5d6624ea6255c3473be090b802e1"
+
+regenerator-runtime@^0.9.5:
+  version "0.9.6"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.9.6.tgz#d33eb95d0d2001a4be39659707c51b0cb71ce029"
 
 regenerator-transform@^0.10.0:
   version "0.10.1"
