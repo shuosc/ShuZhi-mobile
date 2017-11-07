@@ -33,8 +33,8 @@ if (__THEME === 'mat') {
 Vue.prototype.$http = axios
 Vue.prototype.$api = 'http://shuszapi.sh-sdhr.com'
 Vue.prototype.$user = {
-  userID: '',
-  username: '',
+  ID: '',
+  name: '',
   login: false
 }
 /* eslint-disable no-new */
