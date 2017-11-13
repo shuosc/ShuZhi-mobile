@@ -29,13 +29,13 @@ if (__THEME === 'mat') {
 // import 'quasar-extras/material-icons'
 // import 'quasar-extras/ionicons'
 // import 'quasar-extras/fontawesome'
-// import 'quasar-extras/animate'
+import 'quasar-extras/animate'
 Vue.prototype.$http = axios
-Vue.prototype.$api = 'http://shuszapi.sh-sdhr.com'
+// Vue.prototype.$api = 'http://shuszapi.sh-sdhr.com'
 Vue.prototype.$user = {
   ID: '',
   name: '',
-  login: false
+  login: true
 }
 /* eslint-disable no-new */
 new Vue({

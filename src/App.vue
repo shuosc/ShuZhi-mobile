@@ -22,14 +22,14 @@
         </q-toolbar>
         <!-- Navigation -->
         <!-- <q-tabs slot="navigation">
-                      <q-route-tab slot="title"  to="/test-layout/about" replace hide="icon" label="About" />
-                      <q-route-tab slot="title"  to="/test-layout/toolbar" replace hide="icon" label="Toolbar" />
-                      <q-route-tab slot="title"  to="/test-layout/tabs" replace label="Tabs" />
-                      <q-route-tab slot="title"  to="/test-layout/drawer" replace label="Drawer" />
-                    </q-tabs> -->
+                          <q-route-tab slot="title"  to="/test-layout/about" replace hide="icon" label="About" />
+                          <q-route-tab slot="title"  to="/test-layout/toolbar" replace hide="icon" label="Toolbar" />
+                          <q-route-tab slot="title"  to="/test-layout/tabs" replace label="Tabs" />
+                          <q-route-tab slot="title"  to="/test-layout/drawer" replace label="Drawer" />
+                        </q-tabs> -->
         <!-- sub-routes get injected here: -->
         <router-view />
-        <q-modal v-model="open" minimized ref="basicModal">
+        <q-modal v-model="open" minimized ref="basicModal" no-backdrop-dismiss>
           <q-card flat>
             <q-card-title>登录</q-card-title>
             <!-- <q-card-separator /> -->
@@ -65,11 +65,18 @@ export default {
       passWord: ''
     }
   },
-  created() {},
+  created() {
+    this.$q.events.$on('shuzhi:login', state => {
+      this.open = true
+      console.log('App became', state)
+    })
+  },
   methods: {
     login() {
       this.open = false
       Toast.create('成功登陆')
+      this.$user.ID = '16120005'
+      this.$user.login = true
       // this.$http
       //   .post('/api/Sys/Users/Login', {
       //     userName: this.userName,
@@ -90,9 +97,11 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~variables';
+@import '~variables'
+
 .pull-to-refresh-message
-  z-index:10
+  z-index 10
+
 .q-tabs-head
-  z-index:20
+  z-index 20
 </style>

@@ -4,13 +4,12 @@
       <div style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">{{activity.title}}</div>
     </q-card-title>
     <q-card-media overlay-position="bottom">
-      <!-- <img :src="activity.poster" class="full-width" style="height:150px;"> -->
-      <q-parallax :src="activity.poster" class="full-width" :height="200" >
+      <q-parallax :src="activity.poster" class="full-width" :height="150" >
         <div slot="loading">Loading...</div>
       </q-parallax>
     </q-card-media>
     <q-card-separator />
-    <q-list>
+    <q-list dense no-border>
       <q-item>
         <q-item-side>
           <q-item-tile color="primary" icon="people" />
@@ -36,8 +35,6 @@
         </q-item-main>
       </q-item>
     </q-list>
-    <!-- </div>
-          </div> -->
     <q-card-actions align="around">
       <!-- <q-btn color="primary" flat style="width:31%;" @click="$emit('onFavoriteClick')">
               <q-icon name="star" :color="activity.favorite?'orange':'primary'" />{{activity.favorite?'已收藏':'收藏'}}</q-btn> -->

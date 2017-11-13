@@ -40,6 +40,9 @@
         </q-pull-to-refresh>
       </q-tab-pane>
     </q-tabs>
+    <q-btn v-back-to-top v-back-to-top.animate="{offset: 500, duration: 200}" round color="teal-5" class="fixed-bottom-right" style="margin: 0 15px 15px 0">
+      <q-icon name="keyboard_arrow_up" />
+    </q-btn>
     <q-modal v-model="open" minimized ref="basicModal">
       <q-card flat>
         <q-card-title>请填写您的联系方式完成报名</q-card-title>
@@ -60,7 +63,8 @@
 <script>
 import {
   Loading,
-  Dialog
+  Dialog,
+  Events
   // optional!, for example below
   // with custom spinner
   // QSpinnerGears
@@ -88,6 +92,7 @@ export default {
       index: 0,
       show: true,
       activities: [],
+      activity: {},
       favoriteActivities: [],
       enrollsActivities: [],
       page: 0,
@@ -128,6 +133,9 @@ export default {
   created() {
     // this.getCategories()
     // this.getActivities()
+    if (!this.$user.login) {
+      Events.$emit('shuzhi:login')
+    }
   },
   watch: {
     search: {
@@ -143,10 +151,10 @@ export default {
       Loading.show()
       this.$http
         .post('/api/HuoDong/HuoDBMXX/CreateHuoDBM', {
-          HuoDXXId: '1',
-          XueHao: '16120005',
-          ShouJHM: '13818918989',
-          Email: ''
+          HuoDXXId: this.activity.id,
+          XueHao: this.$user.ID,
+          ShouJHM: this.phone,
+          Email: this.email
         })
         .then(resposne => {
           Loading.hide()
@@ -165,6 +173,10 @@ export default {
         })
     },
     onFavoriteClick(index, activity) {
+      if (!this.$user.login) {
+        Events.$emit('shuzhi:login')
+        return
+      }
       this.index = index
       console.log('onFavoriteClick', index)
       if (activity.favorite) {
@@ -172,8 +184,13 @@ export default {
       }
     },
     onRegisterClick(index, activity) {
+      if (!this.$user.login) {
+        Events.$emit('shuzhi:login')
+        return
+      }
       console.log('onRegisterClick', index)
       this.index = index
+      this.activity = activity
       if (activity.register) {
         Dialog.create({
           title: '提示',
@@ -182,6 +199,13 @@ export default {
             {
               label: '确定',
               handler: () => {
+                this.$http
+                  .post('/api/HuoDong/HuoDBMXX/DeleteHuoDBM', {
+                    params: { hdmid: activity.HuoDBMXXId }
+                  })
+                  .then(response => {
+                    console.log(response)
+                  })
                 this.enrollsRefresher()
               }
             },
@@ -207,7 +231,7 @@ export default {
       this.page = index
       this.$http
         .get('/api/HuoDong/HuoDBMXX/GetHuoDBMXX', {
-          params: { xueHao: '16120005', pageSize: 10, pageNumber: this.page }
+          params: { xueHao: this.$user.ID, pageSize: 10, pageNumber: this.page }
         })
         .then(response => {
           if (response.data.data.huodxx.length === 0) {

@@ -2,13 +2,12 @@
   <q-tabs>
     <!-- Tabs - notice slot="title" -->
     <q-tab default slot="title" label="证明类" name="tab-1" />
-    <q-tab slot="title" name="tab-2" label="事物类" />
+    <q-tab slot="title" name="tab-2" label="事务类" />
     <q-tab slot="title" name="tab-3" label="场地租借" />
     <q-tab-pane v-for="i in 3" :name="`tab-${i}`" :key="i" class="no-padding">
       <q-list no-border separator>
         <q-collapsible v-for="issue in issues[i-1]" :label="issue.name" :key="issue.name">
           <div v-html="issue.detail">
-            
           </div>
         </q-collapsible>
       </q-list>

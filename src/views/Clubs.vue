@@ -15,6 +15,9 @@
       <q-spinner-dots slot="message" :size="40"></q-spinner-dots>
     </q-infinite-scroll>
     <!-- </q-pull-to-refresh> -->
+    <q-btn v-back-to-top v-back-to-top.animate="{offset: 500, duration: 200}" round color="teal-5" class="fixed-bottom-right" style="margin: 0 15px 15px 0">
+      <q-icon name="keyboard_arrow_up" />
+    </q-btn>
     <q-modal v-model="open" minimized ref="basicModal">
       <q-card flat>
         <q-card-title>请填写您的联系方式完成报名</q-card-title>
@@ -35,9 +38,11 @@
 </template>
 
 <script>
+// import { Events } from 'quasar'
 import {
   Loading,
-  Dialog
+  Dialog,
+  Events
   // optional!, for example below
   // with custom spinner
   // QSpinnerGears
@@ -101,7 +106,7 @@ export default {
       this.$http
         .post('/api/ZuZhi/ZuZCY/CreateZuZBM', {
           ZuZXXId: this.clubs[this.index].id,
-          XueHao: '16120005',
+          XueHao: this.$user.ID,
           ShouJHM: this.phone,
           YouXiang: this.email,
           TeCTS: this.special,
@@ -124,6 +129,10 @@ export default {
         })
     },
     onFavoriteClick(index) {
+      if (!this.$user.login) {
+        Events.$emit('shuzhi:login')
+        return
+      }
       this.index = index
       console.log('onFavoriteClick', index)
       if (this.activities[index].favorite) {
@@ -131,6 +140,10 @@ export default {
       }
     },
     onRegisterClick(index) {
+      if (!this.$user.login) {
+        Events.$emit('shuzhi:login')
+        return
+      }
       console.log('onRegisterClick', index)
       this.index = index
       this.open = true
