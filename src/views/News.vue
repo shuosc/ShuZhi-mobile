@@ -1,11 +1,13 @@
 <template>
   <q-tabs v-model="selectedTab">
     <!-- Tabs - notice slot="title" -->
-    <q-tab default slot="title" label="就业办" name="tab-1" />
-    <q-tab slot="title" label="学工办" name="tab-2" />
-    <q-tab slot="title" label="教务处" name="tab-3" />
+    <q-tab default slot="title" label="通知公告" name="tab-1" />
+    <q-tab slot="title" label="学生事务" name="tab-2" />
+    <q-tab slot="title" label="教务通知" name="tab-3" />
+    <q-tab slot="title" label="实习就业" name="tab-4" />
     <!-- Targets -->
-    <q-tab-pane name="tab-1">
+    <q-tab-pane name="tab-1" class="no-padding">
+      <!-- <q-toolbar slot="header">...</q-toolbar> -->
       <q-infinite-scroll :handler="loadMore" ref="infiniteScroll" style="text-align:center;">
         <news-card v-for="(news,index) in news_all" :news="news" :key="index" @click.native="onNewsClick(index)"></news-card>
         <q-spinner-dots slot="message" :size="40"></q-spinner-dots>
@@ -24,13 +26,20 @@
       </q-infinite-scroll>
     </q-tab-pane>
     <q-modal v-model="open">
-      <q-card>
-        <q-card-title>{{news.title}}</q-card-title>
-        <q-card-main v-html="news.detail"></q-card-main>
-        <q-card-actions align="around">
-          <q-btn color="primary" @click="open = false" class="full-width">关闭</q-btn>
-        </q-card-actions>
-      </q-card>
+      <q-modal-layout>
+        <q-toolbar slot="header" inverted>
+          <q-btn color="primary" flat @click="open = false">
+            <q-icon name="close" />
+            <q-toolbar-title>
+              新闻详情
+            </q-toolbar-title>
+          </q-btn>
+        </q-toolbar>
+        <q-card>
+          <q-card-title>{{news.title}}</q-card-title>
+          <q-card-main v-html="news.detail"></q-card-main>
+        </q-card>
+      </q-modal-layout>
     </q-modal>
   </q-tabs>
 </template>

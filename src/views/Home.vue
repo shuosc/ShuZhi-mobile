@@ -69,7 +69,7 @@
         社团组织
       </q-card-main>
     </q-card>
-    <q-card flat @click="linkPC">
+    <q-card flat @click="$router.push('/issues')">
       <q-card-title>
         <div style="color: #a2e2e3">
           <!-- inheriting color #a2e2e3: -->
@@ -78,7 +78,7 @@
       </q-card-title>
       <q-card-separator />
       <q-card-main style="text-align:center;">
-        电脑版
+        事务办理
       </q-card-main>
     </q-card>
   </div>

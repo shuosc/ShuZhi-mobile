@@ -1,41 +1,43 @@
 <template>
   <div>
-    <q-tabs v-model="selectedTab">
+    <q-tabs v-model="selectedTab" style="z-index:20;">
       <!-- Tabs - notice slot="title" -->
       <q-tab default slot="title" label="全部活动" name="tab-1" />
-      <q-tab slot="title" label="我的收藏" name="tab-2" />
+      <!-- <q-tab slot="title" label="我的收藏" name="tab-2" /> -->
       <q-tab slot="title" label="我的活动" name="tab-3" />
       <!-- Targets -->
       <q-tab-pane name="tab-1">
-        <!-- <q-pull-to-refresh :handler="refresher"> -->
-        <q-card class="full-width">
-          <q-card-main>
-            <q-search v-model="search.text" placeholder="输入活动名称搜索" />
-            <q-collapsible label="更多条件">
-              <q-select v-model="search.categroy" float-label="活动分类" :options="options.categroy" />
-              <q-select v-model="search.location" float-label="活动地点" :options="options.location" />
-              <q-select v-model="search.date" float-label="活动时间" :options="options.date" />
-              <q-select v-model="search.full" float-label="报名人数" :options="options.full" />
-            </q-collapsible>
-          </q-card-main>
-        </q-card>
-        <q-infinite-scroll :handler="loadMore" ref="infiniteScroll" style="text-align:center;">
-          <activity-card v-for="(activity,index) in activities" :activity="activity" :key="index" @onFavoriteClick="onFavoriteClick(index)" @onRegisterClick="onRegisterClick(index)"></activity-card>
-          <q-spinner-dots slot="message" :size="40"></q-spinner-dots>
-        </q-infinite-scroll>
-        <!-- </q-pull-to-refresh> -->
+        <q-pull-to-refresh :handler="refresher">
+          <q-card class="full-width">
+            <q-card-main>
+              <q-search v-model="search.name" placeholder="输入活动名称搜索" />
+              <q-collapsible label="更多条件">
+                <q-select v-model="search.categroy" float-label="活动分类" :options="options.categroy" />
+                <q-select v-model="search.location" float-label="活动地点" :options="options.location" />
+                <q-select v-model="search.date" float-label="活动时间" :options="options.date" />
+                <q-select v-model="search.full" float-label="报名人数" :options="options.full" />
+              </q-collapsible>
+            </q-card-main>
+          </q-card>
+          <q-infinite-scroll :handler="loadMoreActivities" ref="activitiesInfiniteScroll" style="text-align:center;">
+            <activity-card v-for="(activity,index) in activities" :activity="activity" :key="index" @onFavoriteClick="onFavoriteClick(index,activity)" @onRegisterClick="onRegisterClick(index,activity)"></activity-card>
+            <q-spinner-dots slot="message" :size="40"></q-spinner-dots>
+          </q-infinite-scroll>
+        </q-pull-to-refresh>
       </q-tab-pane>
-      <q-tab-pane name="tab-2">
-        <q-infinite-scroll :handler="loadMore" ref="infiniteScroll" style="text-align:center;">
-          <activity-card v-for="(activity,index) in activities" :activity="activity" :key="index" @onFavoriteClick="onFavoriteClick(index)" @onRegisterClick="onRegisterClick(index)"></activity-card>
-          <q-spinner-dots slot="message" :size="40"></q-spinner-dots>
-        </q-infinite-scroll>
-      </q-tab-pane>
+      <!-- <q-tab-pane name="tab-2"> -->
+      <!-- <q-infinite-scroll :handler="loadMore" ref="infiniteScroll" style="text-align:center;"> -->
+      <!-- <activity-card v-for="(activity,index) in activities" :activity="favoriteActivity" :key="index" @onFavoriteClick="onFavoriteClick(index)" @onRegisterClick="onRegisterClick(index)"></activity-card> -->
+      <!-- <q-spinner-dots slot="message" :size="40"></q-spinner-dots> -->
+      <!-- </q-infinite-scroll> -->
+      <!-- </q-tab-pane> -->
       <q-tab-pane name="tab-3">
-        <q-infinite-scroll :handler="loadMore" ref="infiniteScroll" style="text-align:center;">
-          <activity-card v-for="(activity,index) in activities" :activity="activity" :key="index" @onFavoriteClick="onFavoriteClick(index)" @onRegisterClick="onRegisterClick(index)"></activity-card>
-          <q-spinner-dots slot="message" :size="40"></q-spinner-dots>
-        </q-infinite-scroll>
+        <q-pull-to-refresh :handler="enrollsRefresher">
+          <q-infinite-scroll :handler="loadMoreEnrollsActivities" ref="enrollsActivitiesInfiniteScroll" style="text-align:center;">
+            <activity-card v-for="(activity,index) in enrollsActivities" :activity="activity" :key="index" @onFavoriteClick="onFavoriteClick(index,activity)" @onRegisterClick="onRegisterClick(index,activity)"></activity-card>
+            <q-spinner-dots slot="message" :size="40"></q-spinner-dots>
+          </q-infinite-scroll>
+        </q-pull-to-refresh>
       </q-tab-pane>
     </q-tabs>
     <q-modal v-model="open" minimized ref="basicModal">
@@ -78,75 +80,60 @@ export default {
       count: 10,
       search: {
         name: '',
-        location: '0',
-        date: '0',
-        categroy: '0',
-        full: '0'
+        location: '全部',
+        date: '全部',
+        categroy: '全部',
+        full: '全部'
       },
       index: 0,
       show: true,
-      activities: [
-        {
-          title: '【学业辅导】2017版学生手册及诚信守则意见征询活动】',
-          founder: {
-            avatar:
-              'http://quasar-framework.org/quasar-play/android/statics/boy-avatar.png',
-            name: '王平'
-          },
-          views: 123,
-          enrolls: 0,
-          capacity: 30,
-          location: '上海大学宝山校区 图书馆7Y3',
-          favorite: true,
-          register: false,
-          start: '11/06 11:08',
-          end: '11/06 11:08',
-          detail: ''
-        }
-      ],
+      activities: [],
+      favoriteActivities: [],
+      enrollsActivities: [],
+      page: 0,
       options: {
         location: [
-          { label: '全部', value: '0' },
-          { label: '宝山', value: '1' },
-          { label: '嘉定', value: '2' },
-          { label: '延长', value: '3' }
+          { label: '全部', value: '全部' },
+          { label: '宝山', value: '宝山' },
+          { label: '嘉定', value: '嘉定' },
+          { label: '延长', value: '延长' }
         ],
         date: [
-          { label: '全部', value: '0' },
-          { label: '今天', value: '1' },
-          { label: '明天', value: '2' },
-          { label: '后天', value: '3' },
-          { label: '最近一周', value: '4' },
-          { label: '最近一月', value: '5' }
+          { label: '全部', value: '全部' },
+          { label: '今天', value: '今天' },
+          { label: '明天', value: '明天' },
+          { label: '后天', value: '后天' },
+          { label: '最近一周', value: '最近一周' },
+          { label: '最近一月', value: '最近一月' }
         ],
         categroy: [
-          { label: '全部', value: '0' },
-          { label: '学业辅导', value: '1' },
-          { label: '师生互动', value: '2' },
-          { label: '志愿服务', value: '3' },
-          { label: '社会实践', value: '4' },
-          { label: '创新创业', value: '5' },
-          { label: '文体活动', value: '6' },
-          { label: '素质拓展', value: '7' },
-          { label: '国际交流', value: '8' }
+          { label: '全部', value: '全部' },
+          { label: '学业辅导', value: '学业辅导' },
+          { label: '师生互动', value: '师生互动' },
+          { label: '志愿服务', value: '志愿服务' },
+          { label: '社会实践', value: '社会实践' },
+          { label: '创新创业', value: '创新创业' },
+          { label: '文体活动', value: '文体活动' },
+          { label: '素质拓展', value: '素质拓展' },
+          { label: '国际交流', value: '国际交流' }
         ],
         full: [
-          { label: '全部', value: '0' },
-          { label: '未满', value: '0' },
-          { label: '已满', value: '0' }
+          { label: '全部', value: '全部' },
+          { label: '未满', value: '未满' },
+          { label: '已满', value: '已满' }
         ]
       }
     }
   },
   created() {
-    this.getCategories()
-    this.getActivities()
+    // this.getCategories()
+    // this.getActivities()
   },
   watch: {
     search: {
       deep: true,
       handler: function() {
-        this.getActivities()
+        this.refresher()
       }
     }
   },
@@ -154,31 +141,58 @@ export default {
     register() {
       // let index = this.index
       Loading.show()
-      Loading.hide()
-      Dialog.create({
-        title: '提示',
-        message: '您已成功报名此活动',
-        buttons: [
-          {
-            label: '确定',
-            handler: () => {
-              this.open = false
-            }
-          }
-        ]
-      })
+      this.$http
+        .post('/api/HuoDong/HuoDBMXX/CreateHuoDBM', {
+          HuoDXXId: '1',
+          XueHao: '16120005',
+          ShouJHM: '13818918989',
+          Email: ''
+        })
+        .then(resposne => {
+          Loading.hide()
+          Dialog.create({
+            title: '提示',
+            message: resposne.data.message,
+            buttons: [
+              {
+                label: '确定',
+                handler: () => {
+                  this.open = false
+                }
+              }
+            ]
+          })
+        })
     },
-    onFavoriteClick(index) {
+    onFavoriteClick(index, activity) {
       this.index = index
       console.log('onFavoriteClick', index)
-      if (this.activities[index].favorite) {
+      if (activity.favorite) {
       } else {
       }
     },
-    onRegisterClick(index) {
+    onRegisterClick(index, activity) {
       console.log('onRegisterClick', index)
       this.index = index
-      if (this.activities[index].register) {
+      if (activity.register) {
+        Dialog.create({
+          title: '提示',
+          message: '取消报名此活动吗',
+          buttons: [
+            {
+              label: '确定',
+              handler: () => {
+                this.enrollsRefresher()
+              }
+            },
+            {
+              label: '取消',
+              handler: () => {
+                this.enrollsRefresher()
+              }
+            }
+          ]
+        })
       } else {
         this.open = true
       }
@@ -189,32 +203,111 @@ export default {
         console.log(response)
       })
     },
-    getActivities() {
-      console.log('/search')
+    loadMoreEnrollsActivities: function(index, done) {
+      this.page = index
+      this.$http
+        .get('/api/HuoDong/HuoDBMXX/GetHuoDBMXX', {
+          params: { xueHao: '16120005', pageSize: 10, pageNumber: this.page }
+        })
+        .then(response => {
+          if (response.data.data.huodxx.length === 0) {
+            this.$refs.enrollsActivitiesInfiniteScroll.stop()
+            done()
+            return
+          }
+          for (let rawActivity of response.data.data.huodxx) {
+            this.enrollsActivities.push({
+              id: rawActivity.Id,
+              title: rawActivity.HuoDMC,
+              founder: {
+                avatar: `http://www.sz.shu.edu.cn/Resources/TouXiang/${rawActivity.TouXZP}`,
+                name: rawActivity.CreateName
+              },
+              poster: `http://www.sz.shu.edu.cn/Resources/HuoDTP/${rawActivity.HaiBTP}`,
+              views: rawActivity.LiuLRS,
+              enrolls: rawActivity.BaoMRS,
+              favoriteTime: rawActivity.ShouCRS,
+              capacity: rawActivity.BaoMXZ,
+              location: rawActivity.HuoDDDXQ,
+              favorite: true,
+              register: true,
+              start: rawActivity.HuoDKSSJ,
+              end: rawActivity.HuoDJSSJ,
+              detail: rawActivity.HuoDJJ,
+              notice: rawActivity.BaoMXuZ
+            })
+          }
+          done()
+        })
+    },
+    loadMoreActivities: function(index, done) {
+      this.count += 10
+      this.page = index
       this.$http
         .get('/api/HuoDong/HuoDXX/GetAllHuoDXX', {
           params: {
-            huodmc: '',
+            huodmc: this.search.name,
             huodlb: 0,
-            huodddxq: '全部',
-            huodsj: '全部',
-            baomzt: '全部',
+            huodddxq: this.search.location,
+            huodsj: this.search.date,
+            baomzt: this.search.full,
             pageSize: 10,
-            pageNumber: 1
+            pageNumber: this.page
           }
         })
         .then(response => {
-          console.log(response)
+          console.log(response.data.data)
+          if (response.data.data.huodxx.length === 0) {
+            this.$refs.activitiesInfiniteScroll.stop()
+            done()
+            return
+          }
+          for (let rawActivity of response.data.data.huodxx) {
+            this.activities.push({
+              id: rawActivity.Id,
+              title: rawActivity.HuoDMC,
+              founder: {
+                avatar: `http://www.sz.shu.edu.cn/Resources/TouXiang/${rawActivity.TouXZP}`,
+                name: rawActivity.CreateName
+              },
+              poster: `http://www.sz.shu.edu.cn/Resources/HuoDTP/${rawActivity.HaiBTP}`,
+              views: rawActivity.LiuLRS,
+              enrolls: rawActivity.BaoMRS,
+              favoriteTime: rawActivity.ShouCRS,
+              capacity: rawActivity.BaoMXZ,
+              location: rawActivity.HuoDDDXQ,
+              favorite: true,
+              register: false,
+              start: rawActivity.HuoDKSSJ,
+              end: rawActivity.HuoDJSSJ,
+              detail: rawActivity.HuoDJJ,
+              notice: rawActivity.BaoMXuZ
+            })
+          }
+          done()
         })
-      // this.$http.get('/api/activities')
     },
-    loadMore: function(index, done) {
-      this.count += 10
-      // done()
+    activitiesInfiniteScrollReset() {
+      this.$refs.activitiesInfiniteScroll.reset()
+      this.$refs.activitiesInfiniteScroll.resume()
+    },
+    enrollsActivitiesInfiniteScrollReset() {
+      this.$refs.enrollsActivitiesInfiniteScroll.reset()
+      this.$refs.enrollsActivitiesInfiniteScroll.resume()
     },
     refresher(done) {
-      console.log('done')
-      done()
+      this.activities = []
+      this.activitiesInfiniteScrollReset()
+      if (done !== undefined) {
+        done()
+      }
+    },
+    enrollsRefresher(done) {
+      this.enrollsActivities = []
+      this.enrollsActivitiesInfiniteScrollReset()
+      if (done !== undefined) {
+        done()
+      }
     }
   }
 }

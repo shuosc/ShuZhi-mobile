@@ -7,6 +7,8 @@ import RoomBooking from './views/RoomBooking.vue'
 import News from './views/News.vue'
 import Clubs from './views/Clubs.vue'
 import Query from './views/Query.vue'
+import Issues from './views/Issues.vue'
+
 Vue.use(VueRouter)
 
 /*
@@ -37,6 +39,7 @@ export default new VueRouter({
     { path: '/room-booking', component: RoomBooking },
     { path: '/news', component: News },
     { path: '/clubs', component: Clubs },
-    { path: '/query', component: Query }
+    { path: '/query', component: Query },
+    { path: '/issues', component: Issues }
   ]
 })

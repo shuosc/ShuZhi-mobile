@@ -1,47 +1,52 @@
 <template>
   <q-card class="full-width" style="padding-top:10px;">
-    <q-card-media overlay-position="bottom">
-      <img :src="`http://www.sz.shu.edu.cn/Resources/ZuZTX/${club.logo}`" style="height:150px">
-      <q-card-title slot="overlay">
-        <div slot="subtitle" style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">{{club.name}}</div>
-      </q-card-title>
-    </q-card-media>
-    <q-card-separator />
-    <q-list>
-      <q-item>
-        <q-item-side>
-          <q-item-tile color="primary" icon="people" />
-        </q-item-side>
-        <q-item-main>
-          <q-item-tile label>{{club.charger}}</q-item-tile>
-        </q-item-main>
-      </q-item>
-      <q-item>
-        <q-item-side>
-          <q-item-tile color="primary" icon="people" />
-        </q-item-side>
-        <q-item-main>
-          <q-item-tile label>{{club.teacher}}</q-item-tile>
-        </q-item-main>
-      </q-item>
-      <q-item>
-        <q-item-side>
-          <q-item-tile color="primary" icon="people" />
-        </q-item-side>
-        <q-item-main>
-          <q-item-tile label>{{club.enrolls}}人</q-item-tile>
-        </q-item-main>
-      </q-item>
-      <q-item>
-        <q-item-side>
-          <q-item-tile color="primary" icon="people" />
-        </q-item-side>
-        <q-item-main>
-          <q-rating slot="subtitle" v-model="club.stars" :max="5" />
-        </q-item-main>
-      </q-item>
-
-    </q-list>
+    <div class="row">
+      <div class="col-5">
+        <q-card-media overlay-position="bottom">
+          <img :src="`http://www.sz.shu.edu.cn/Resources/ZuZTX/${club.logo}`" style="height:160px">
+          <q-card-title slot="overlay">
+            <div slot="subtitle" style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">{{club.name}}</div>
+          </q-card-title>
+        </q-card-media>
+        <q-card-separator />
+      </div>
+      <div class="col-7">
+        <q-list no-border>
+          <q-item>
+            <q-item-side>
+              <q-item-tile color="primary" icon="person" />
+            </q-item-side>
+            <q-item-main>
+              <q-item-tile label>{{club.charger}}</q-item-tile>
+            </q-item-main>
+          </q-item>
+          <q-item>
+            <q-item-side>
+              <q-item-tile color="primary" icon="person" />
+            </q-item-side>
+            <q-item-main>
+              <q-item-tile label>{{club.teacher}}</q-item-tile>
+            </q-item-main>
+          </q-item>
+          <q-item>
+            <q-item-side>
+              <q-item-tile color="primary" icon="people" />
+            </q-item-side>
+            <q-item-main>
+              <q-item-tile label>{{club.enrolls}}人</q-item-tile>
+            </q-item-main>
+          </q-item>
+          <q-item>
+            <q-item-side>
+              <q-item-tile color="primary" icon="star" />
+            </q-item-side>
+            <q-item-main>
+              <q-rating slot="subtitle" v-model="club.stars" :max="5" />
+            </q-item-main>
+          </q-item>
+        </q-list>
+      </div>
+    </div>
     <q-card-actions align="around">
       <q-btn color="primary" flat style="width:45%;" @click="open = true">查看简介</q-btn>
       <q-btn color="primary" flat style="width:45%;" @click="$emit('onRegisterClick')">

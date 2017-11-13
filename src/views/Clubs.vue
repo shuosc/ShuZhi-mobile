@@ -22,6 +22,8 @@
         <q-card-main>
           <q-input v-model="phone" type="number" float-label="联系电话" />
           <q-input v-model="email" type="email" float-label="联系邮箱" />
+          <q-input v-model="special" type="text" float-label="特色特长" />
+          <q-input v-model="reason" type="text" float-label="申请理由" />
         </q-card-main>
         <q-card-actions align="around">
           <q-btn @click.native="open = false" label="Close" style="width:45%;">取消</q-btn>
@@ -87,6 +89,7 @@ export default {
     search: {
       deep: true,
       handler: function() {
+        this.clubs = []
         this.getClubs()
       }
     }
@@ -95,19 +98,30 @@ export default {
     register() {
       // let index = this.index
       Loading.show()
-      Loading.hide()
-      Dialog.create({
-        title: '提示',
-        message: '您已成功报名此活动',
-        buttons: [
-          {
-            label: '确定',
-            handler: () => {
-              this.open = false
-            }
-          }
-        ]
-      })
+      this.$http
+        .post('/api/ZuZhi/ZuZCY/CreateZuZBM', {
+          ZuZXXId: this.clubs[this.index].id,
+          XueHao: '16120005',
+          ShouJHM: this.phone,
+          YouXiang: this.email,
+          TeCTS: this.special,
+          ShenQLY: this.reason
+        })
+        .then(response => {
+          Loading.hide()
+          Dialog.create({
+            title: '提示',
+            message: response.data.message,
+            buttons: [
+              {
+                label: '确定',
+                handler: () => {
+                  this.open = false
+                }
+              }
+            ]
+          })
+        })
     },
     onFavoriteClick(index) {
       this.index = index
@@ -119,10 +133,7 @@ export default {
     onRegisterClick(index) {
       console.log('onRegisterClick', index)
       this.index = index
-      if (this.activities[index].register) {
-      } else {
-        this.open = true
-      }
+      this.open = true
     },
     getClubs(done) {
       this.$http
@@ -139,6 +150,7 @@ export default {
           console.log(response)
           for (let item of response.data.data.zuzxx) {
             let club = {
+              id: item.Id,
               name: item.ZuZMC,
               stars: parseInt(item.XingJi),
               charger: item.ZuZLDRXM,

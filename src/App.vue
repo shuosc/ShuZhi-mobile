@@ -68,19 +68,21 @@ export default {
   created() {},
   methods: {
     login() {
-      this.$http
-        .post('/api/Sys/Users/Login', {
-          userName: this.userName,
-          passWord: this.passWord
-        })
-        .then(response => {
-          this.$user.ID = this.userName
-          this.$user.name = '刘星'
-          this.$user.login = true
-          console.log(response)
-          this.open = false
-          Toast.create('成功登陆')
-        })
+      this.open = false
+      Toast.create('成功登陆')
+      // this.$http
+      //   .post('/api/Sys/Users/Login', {
+      //     userName: this.userName,
+      //     passWord: this.passWord
+      //   })
+      //   .then(response => {
+      //     this.$user.ID = this.userName
+      //     this.$user.name = '刘星'
+      //     this.$user.login = true
+      //     console.log(response)
+      //     this.open = false
+      //     Toast.create('成功登陆')
+      //   })
       //
     }
   }
@@ -89,4 +91,8 @@ export default {
 
 <style lang="stylus">
 @import '~variables';
+.pull-to-refresh-message
+  z-index:10
+.q-tabs-head
+  z-index:20
 </style>
