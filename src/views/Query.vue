@@ -16,6 +16,7 @@
         <img src="http://api.shu.edu.cn/CampusFileList/%E6%A0%A1%E8%BD%A6%E6%97%B6%E5%88%BB%E8%A1%A8.jpg" class="responsive" />
       </q-tab-pane>
       <q-tab-pane name="tab-3">
+        <img src="~/assets/SchoolMap.jpg" class="responsive" />
       </q-tab-pane>
     </q-tabs>
   </div>

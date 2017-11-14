@@ -111,12 +111,13 @@ export default {
     getMyBookings() {
       this.$http
         .get('/api/ChangDXX/ShiNCDYYXX/GetShiNCDYYXXByXueHao', {
-          params: { xueHao: '16120005', pageSize: 10, pageNumber: 1 }
+          params: { xueHao: this.$user.ID, pageSize: 10, pageNumber: 1 }
         })
         .then(response => {
           console.log(response)
         })
     },
+    getRooms() {},
     create() {
       this.$http
         .post('/api/ChangDXX/ShiWCDYYXX/CreateShiWCDYYXX', {

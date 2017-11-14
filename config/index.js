@@ -51,6 +51,13 @@ module.exports = {
         // pathRewrite: {
         //   '^/api': '^/api'
         // }
+      },
+      '/mobile': {
+        target: 'http://api.shu.edu.cn',
+        changeOrigin: true
+        // pathRewrite: {
+        //   '^/api': '^/api'
+        // }
       }
     }
   }
