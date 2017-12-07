@@ -36,7 +36,7 @@
                 <q-input v-model="ID" type="number" float-label="学号" />
                 <q-input v-model="phone" type="number" float-label="联系电话" />
                 <q-input v-model="actname" float-label="活动名称" />
-                <q-datetime v-model="date" float-label="预约日期" />
+                <q-datetime v-model="date" :min="today" float-label="预约日期" />
                 <q-datetime-range v-model="timerange" type="time" class="full-width" float-label="预约时间" />
               </q-card-main>
               <q-card-actions align="around">
@@ -51,12 +51,15 @@
 
 <script>
 import {Loading, Dialog} from 'quasar'
+const
+  today = new Date()
 export default {
   props: {
     room: Object
   },
   data() {
     return {
+      today,
       index: 0,
       open: false,
       name: '',
@@ -69,8 +72,6 @@ export default {
         from: null,
         to: null
       },
-      mintime: '6:00',
-      maxtime: '18:00'
     }
   },
   methods: {
