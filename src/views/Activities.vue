@@ -131,8 +131,8 @@ export default {
     }
   },
   created() {
-    // this.getCategories()
-    // this.getActivities()
+    this.getCategories()
+    this.getActivities()
     if (!this.$user.login) {
       Events.$emit('shuzhi:login')
     }
