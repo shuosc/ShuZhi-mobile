@@ -33,6 +33,7 @@
               </q-card-title>
               <q-card-main>
                 <q-input v-model="name" float-label="姓名" />
+                <q-input v-model="ID" type="number" float-label="学号" />
                 <q-input v-model="phone" type="number" float-label="联系电话" />
                 <q-input v-model="actname" float-label="活动名称" />
                 <q-datetime v-model="date" float-label="预约日期" />
@@ -59,6 +60,7 @@ export default {
       index: 0,
       open: false,
       name: '',
+      ID: '',
       phone: '',
       date: '',
       actname: '',
@@ -78,11 +80,14 @@ export default {
         ZuZXXId: '2',
         ChangDXXId: this.room.id,
         YuYSRQ: this.data,
-        YuYSJD: this.time.from - this.time.to,
-        XueHao: this.$user.ID,
+        YuYSJD: this.timerange.from - this.timerange.to,
+        XueHao: this.ID,
         XingMing: this.name,
         LianXDH: this.phone,
-        HuoDMC: this.actname
+        HuoDMC: this.actname,
+        HuoDLX: '1',
+        HuoDJJ: '测试5',
+        HuoDRS: '80'
       })
         .then(resposne => {
           Loading.hide()

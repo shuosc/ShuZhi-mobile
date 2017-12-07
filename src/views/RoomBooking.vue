@@ -90,6 +90,7 @@ export default {
   created() {
     this.getRooms()
     this.getMyBookings()
+    this.getinfo()
   },
   methods: {
     getMyBookings() {
