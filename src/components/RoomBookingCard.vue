@@ -71,7 +71,7 @@ export default {
       timerange: {
         from: null,
         to: null
-      },
+      }
     }
   },
   methods: {
