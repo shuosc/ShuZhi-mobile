@@ -116,7 +116,7 @@ export default {
           })
       } else if (category === 'JWC') {
         this.$http
-          .get('/mobile/campusmessage/GetJwcCampusMessageById', {
+          .get('/mobile/campusmessage/GetJwcMessageById', {
             params: {
               MsgID: this.newsSingle.MsgID
             }

@@ -66,10 +66,10 @@ export default {
     }
   },
   created() {
-    this.$q.events.$on('shuzhi:login', state => {
-      this.open = true
-      console.log('App became', state)
-    })
+    // this.$q.events.$on('shuzhi:login', state => {
+    //   this.open = true
+    //   console.log('App became', state)
+    // })
   },
   methods: {
     login() {
