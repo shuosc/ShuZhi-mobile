@@ -251,7 +251,7 @@ export default {
               views: rawActivity.LiuLRS,
               enrolls: rawActivity.BaoMRS,
               favoriteTime: rawActivity.ShouCRS,
-              capacity: rawActivity.BaoMXZ,
+              capacity: rawActivity.RenSXZ,
               location: rawActivity.HuoDDDXQ,
               favorite: true,
               register: true,

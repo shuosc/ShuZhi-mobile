@@ -11,11 +11,11 @@
           <q-toolbar-title>
             iSHU
           </q-toolbar-title>
-          <q-btn flat v-if="$user.login" @click="$refs.layout.toggleRight()">
+          <q-btn flat v-if="$user.login">
             <!-- <q-icon name="more vert" /> -->
             {{$user.ID}}
           </q-btn>
-          <q-btn flat v-else @click="$refs.layout.toggleRight()">
+          <q-btn flat v-else @click="open=true">
             <!-- <q-icon name="more vert" /> -->
             登陆
           </q-btn>
