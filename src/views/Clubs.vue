@@ -30,7 +30,7 @@
         </q-card-main>
         <q-card-actions align="around">
           <q-btn @click.native="open = false" label="Close" style="width:45%;">取消</q-btn>
-          <q-btn @click.native="register()" label="Close" style="width:45%;">报名</q-btn>
+          <!-- <q-btn @click.native="register()" label="Close" style="width:45%;">报名</q-btn> -->
         </q-card-actions>
       </q-card>
     </q-modal>

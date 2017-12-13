@@ -35,7 +35,7 @@ Vue.prototype.$http = axios
 Vue.prototype.$user = {
   ID: '',
   name: '',
-  login: true
+  login: false
 }
 /* eslint-disable no-new */
 new Vue({

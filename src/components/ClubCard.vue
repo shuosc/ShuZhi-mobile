@@ -49,8 +49,8 @@
     </div>
     <q-card-actions align="around">
       <q-btn color="primary" flat style="width:45%;" @click="open = true">查看简介</q-btn>
-      <q-btn color="primary" flat style="width:45%;" @click="$emit('onRegisterClick')">
-        {{club.register?'已报名':'申请加入'}}</q-btn>
+      <!-- <q-btn color="primary" flat style="width:45%;" @click="$emit('onRegisterClick')">
+        {{club.register?'已报名':'申请加入'}}</q-btn> -->
     </q-card-actions>
     <q-modal v-model="open">
       <q-card>

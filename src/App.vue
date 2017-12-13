@@ -13,7 +13,7 @@
           </q-toolbar-title>
           <q-btn flat v-if="$user.login" @click="$refs.layout.toggleRight()">
             <!-- <q-icon name="more vert" /> -->
-            {{$user.name}}
+            {{$user.ID}}
           </q-btn>
           <q-btn flat v-else @click="$refs.layout.toggleRight()">
             <!-- <q-icon name="more vert" /> -->
@@ -66,42 +66,41 @@ export default {
     }
   },
   created() {
-    // this.$q.events.$on('shuzhi:login', state => {
-    //   this.open = true
-    //   console.log('App became', state)
-    // })
+    this.$q.events.$on('shuzhi:login', state => {
+      this.open = true
+      console.log('App became', state)
+    })
   },
   methods: {
     login() {
       this.open = false
       Toast.create('成功登陆')
-      this.$user.ID = '16120005'
-      this.$user.login = true
-      // this.$http
-      //   .post('/api/Sys/Users/Login', {
-      //     userName: this.userName,
-      //     passWord: this.passWord
-      //   })
-      //   .then(response => {
-      //     this.$user.ID = this.userName
-      //     this.$user.name = '刘星'
-      //     this.$user.login = true
-      //     console.log(response)
-      //     this.open = false
-      //     Toast.create('成功登陆')
-      //   })
-      //
+      this.$http
+        .post('/api/Sys/Users/Login', {
+          userName: this.userName,
+          passWord: this.passWord
+        })
+        .then(response => {
+          this.$user.ID = this.userName
+          this.$user.name = '刘星'
+          this.$user.login = true
+          console.log(response)
+          this.open = false
+          Toast.create('成功登陆')
+        })
     }
   }
 }
 </script>
 
 <style lang="stylus">
-@import '~variables'
+@import '~variables';
 
-.pull-to-refresh-message
-  z-index 10
+.pull-to-refresh-message {
+  z-index: 10;
+}
 
-.q-tabs-head
-  z-index 20
+.q-tabs-head {
+  z-index: 20;
+}
 </style>
