@@ -1,6 +1,6 @@
-# Quasar PWA App
+# ShuZhi Mobile
 
-> A Quasar PWA project
+> ShuZhi Mobile 是上海大学熟知网的手机版本，目前由上海大学开源社区负责开发维护。
 
 ## Build Setup
 
