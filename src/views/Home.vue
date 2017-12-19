@@ -1,8 +1,8 @@
 <template>
   <div style="height:100%">
-    <q-carousel class="text-white" style="height:25vh;margin-bottom:10px;">
+    <q-carousel class="text-white" style="height:30vh;margin-bottom:5vh;">
       <div slot="slide" class="no-padding">
-        <img src="/statics/slider_1.png" style="height:100%;width:100%;">
+        <img src="/statics/slider_1.png" style="height:100%;width:100%;max-width:500px;">
       </div>
       <div slot="slide" class="no-padding" @click="open('https://mp.weixin.qq.com/s/KICkRjDIqzhpcD8i9oDIWQ')">
         <img src="/statics/slider_2.png" style="height:100%;width:100%;">
@@ -11,85 +11,14 @@
         Slide 3
       </div> -->
     </q-carousel>
-    <div class="grid ">
-      <q-card flat class="no-margin" @click="$router.push('/news')">
-        <!-- <q-card-title> -->
-        <div style="color: #a2e2e3">
-          <!-- inheriting color #a2e2e3: -->
-          <!-- <q-icon name="filter_vintage" size="5rem" /> -->
-          <img src="~assets/school-info.png" />
+    <div class="grid wrap">
+      <q-card flat class="no-margin col-4" v-for="link in links" :key="link.name" @click="$router.push(link.url)">
+        <div style="color: #a2e2e3;" class="text-center">
+          <img :src="link.img" />
         </div>
-        <!-- </q-card-title> -->
         <q-card-separator />
         <q-card-main style="text-align:center;">
-          通知通告
-        </q-card-main>
-      </q-card>
-      <q-card flat class="no-margin" @click="$router.push('/activities')">
-        <!-- <q-card-title> -->
-        <div style="color: #a2e2e3">
-          <!-- inheriting color #a2e2e3: -->
-          <img src="~assets/school-activity.png" />
-          <!-- <q-icon name="filter_vintage" size="5rem" /> -->
-        </div>
-        <!-- </q-card-title> -->
-        <q-card-separator />
-        <q-card-main style="text-align:center;">
-          校园活动
-        </q-card-main>
-      </q-card>
-    </div>
-    <div class="grid">
-      <q-card flat class="no-margin" @click="$router.push('/query')">
-        <!-- <q-card-title> -->
-        <div style="color: #a2e2e3">
-          <!-- inheriting color #a2e2e3: --><img src="~assets/school-query.png" />
-          <!-- <q-icon name="filter_vintage" size="5rem" /> -->
-        </div>
-        <!-- </q-card-title> -->
-        <q-card-separator />
-        <q-card-main style="text-align:center;">
-          校园查询
-        </q-card-main>
-      </q-card>
-      <q-card flat class="no-margin" @click="$router.push('/room-booking')">
-        <!-- <q-card-title> -->
-        <div style="color: #a2e2e3">
-          <!-- inheriting color #a2e2e3: -->
-          <!-- <q-icon name="alarm" size="5rem" /> -->
-          <img src="~assets/school-service.png" />
-        </div>
-        <!-- </q-card-title> -->
-        <q-card-separator />
-        <q-card-main style="text-align:center;">
-          场地预约
-        </q-card-main>
-      </q-card>
-    </div>
-    <div class="grid">
-      <q-card flat class="no-margin" @click="$router.push('/clubs')">
-        <!-- <q-card-title> -->
-        <div style="color: #a2e2e3">
-          <!-- inheriting color #a2e2e3: -->
-          <!-- <q-icon name="filter_vintage" size="5rem" /> -->
-          <img src="~assets/community-signup.png" />
-        </div>
-        <!-- </q-card-title> -->
-        <q-card-separator />
-        <q-card-main style="text-align:center;">
-          社团组织
-        </q-card-main>
-      </q-card>
-      <q-card flat class="no-margin" @click="$router.push('/issues')">
-        <!-- <q-card-title> -->
-        <div style="color: #a2e2e3">
-          <!-- inheriting color #a2e2e3: -->
-          <img src="~assets/banshi-query.png" />
-        </div>
-        <!-- </q-card-title> -->
-        <q-card-separator />
-        <q-card-main style="text-align:center;">
-          事务办理
+          {{link.name}}
         </q-card-main>
       </q-card>
     </div>
@@ -100,6 +29,18 @@
 import { openURL } from 'quasar'
 export default {
   name: 'hello',
+  data() {
+    return {
+      links: [
+        { img: 'statics/school-info.png', name: '通知通告', url: '/news' },
+        { img: 'statics/school-activity.png', name: '校园活动', url: '/activities' },
+        { img: 'statics/school-query.png', name: '校园查询', url: '/query' },
+        { img: 'statics/school-service.png', name: '场地预约', url: '/room-booking' },
+        { img: 'statics/community-signup.png', name: '社团风采', url: '/clubs' },
+        { img: 'statics/banshi-query.png', name: '事务办理', url: '/issues' }
+      ]
+    }
+  },
   methods: {
     linkPC: function() {
       window.open('http://www.sz.shu.edu.cn')
@@ -122,5 +63,5 @@ img
 .grid
   display flex
   justify-content space-around
-  height 20vh
+  height 55vh
 </style>
