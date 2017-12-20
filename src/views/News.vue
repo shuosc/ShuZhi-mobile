@@ -8,8 +8,8 @@
     <!-- Targets -->
     <q-tab-pane name="tab-1" class="no-padding">
       <!-- <q-toolbar slot="header">...</q-toolbar> -->
-      <q-infinite-scroll :handler="loadMoreSHU" ref="infiniteScrollSHU" style="text-align:center;">
-        <news-card v-for="(news,index) in news.SHU" :news="news" :key="index" @click.native="onNewsClick('SHU',index)"></news-card>
+      <q-infinite-scroll :handler="loadMoreSHUNEWS" ref="infiniteScrollSHUNEWS" style="text-align:center;">
+        <news-card v-for="(news,index) in news.SHUNEWS" :news="news" :key="index" @click.native="onNewsClick('SHUNEWS',index)"></news-card>
         <q-spinner-dots slot="message" :size="40"></q-spinner-dots>
       </q-infinite-scroll>
     </q-tab-pane>
@@ -44,10 +44,11 @@
             </q-toolbar-title>
           </q-btn>
         </q-toolbar>
-        <q-card>
+        <q-card v-if="newsSingle.type!=='SHUNEWS'">
           <q-card-title>{{newsSingle.title}}</q-card-title>
           <q-card-main v-html="newsSingle.detail"></q-card-main>
         </q-card>
+        <iframe :src="newsSingle.url"> </iframe>
         <q-inner-loading :visible="loading">
           <q-spinner-gears size="50px" color="primary"></q-spinner-gears>
         </q-inner-loading>
@@ -65,19 +66,21 @@ export default {
   data() {
     return {
       loading: false,
-      selectedTab: '',
+      selectedTab: 'tab-1',
       open: false,
       news_all: [],
       news: {
         XGB: [],
         SHU: [],
         JYB: [],
-        JWC: []
+        JWC: [],
+        SHUNEWS: []
       },
       page: 1,
       newsSingle: {
         title: '',
-        detail: ''
+        detail: '',
+        type: ''
       }
     }
   },
@@ -85,6 +88,7 @@ export default {
   methods: {
     onNewsClick(category, index) {
       this.newsSingle = this.news[category][index]
+      this.newsSingle.type = category
       this.open = true
       this.loading = true
       if (category === 'XGB') {
@@ -114,6 +118,8 @@ export default {
             //   this.open = true
             // })
           })
+      } else if (category === 'SHUNEWS') {
+        this.loading = false
       } else if (category === 'JWC') {
         this.$http
           .get('/mobile/campusmessage/GetJwcMessageById', {
@@ -177,6 +183,29 @@ export default {
               MsgID: item.MsgID
             }
             this.news.XGB.push(news)
+            done()
+          }
+        })
+    },
+    loadMoreSHUNEWS: function(index, done) {
+      this.page = index
+      this.$http
+        .get('/apisz/TongZGG/GetShuNews', {
+          params: {
+            pageSize: 10,
+            pageNumber: index
+          }
+        })
+        .then(response => {
+          if (response.data.data.total === 0) {
+            this.$refs.infiniteScrollXGB.stop()
+          }
+          for (let item of response.data.data.tongzgg) {
+            let news = {
+              title: item.Title,
+              url: item.Link
+            }
+            this.news.SHUNEWS.push(news)
             done()
           }
         })
