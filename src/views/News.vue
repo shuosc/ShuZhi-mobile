@@ -44,11 +44,10 @@
             </q-toolbar-title>
           </q-btn>
         </q-toolbar>
-        <q-card v-if="newsSingle.type!=='SHUNEWS'">
+        <q-card>
           <q-card-title>{{newsSingle.title}}</q-card-title>
           <q-card-main v-html="newsSingle.detail"></q-card-main>
         </q-card>
-        <iframe :src="newsSingle.url"> </iframe>
         <q-inner-loading :visible="loading">
           <q-spinner-gears size="50px" color="primary"></q-spinner-gears>
         </q-inner-loading>
@@ -119,7 +118,21 @@ export default {
             // })
           })
       } else if (category === 'SHUNEWS') {
-        this.loading = false
+        this.$http
+          .get('/news/shuinfo/', {
+            params: {
+              category: this.newsSingle.url.slice(27, 31),
+              msgID: this.newsSingle.url.slice(32, 37)
+            }
+          })
+          .then(response => {
+            this.newsSingle.detail = response.data.content
+            this.loading = false
+          })
+          .catch(err => {
+            this.loading = false
+            console.log(err)
+          })
       } else if (category === 'JWC') {
         this.$http
           .get('/mobile/campusmessage/GetJwcMessageById', {
@@ -130,9 +143,6 @@ export default {
           .then(response => {
             this.newsSingle.detail = response.data.Summary
             this.loading = false
-            // this.$nextTick(() => {
-            //   this.open = true
-            // })
           })
       } else if (category === 'JYB') {
         this.loading = false
@@ -190,7 +200,7 @@ export default {
     loadMoreSHUNEWS: function(index, done) {
       this.page = index
       this.$http
-        .get('/apisz/TongZGG/GetShuNews', {
+        .get('/TongZGG/TongZGG/GetShuNews', {
           params: {
             pageSize: 10,
             pageNumber: index
