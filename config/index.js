@@ -52,9 +52,9 @@ module.exports = {
         //   '^/api': '^/api'
         // }
       },
-      '/news': {
-        target: 'https://www.shuhelper.cn/api/news',
-        changeOrigin: true,
+      '/shu': {
+        target: 'https://www.shuhelper.cn/api',
+        changeOrigin: true
       },
       '/mobile': {
         target: 'http://api.shu.edu.cn',

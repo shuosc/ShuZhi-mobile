@@ -97,12 +97,7 @@ export default {
       enrollsActivities: [],
       page: 0,
       options: {
-        location: [
-          { label: '全部', value: '全部' },
-          { label: '宝山', value: '宝山' },
-          { label: '嘉定', value: '嘉定' },
-          { label: '延长', value: '延长' }
-        ],
+        location: [{ label: '全部', value: '全部' }, { label: '宝山', value: '宝山' }, { label: '嘉定', value: '嘉定' }, { label: '延长', value: '延长' }],
         date: [
           { label: '全部', value: '全部' },
           { label: '今天', value: '今天' },
@@ -111,28 +106,14 @@ export default {
           { label: '最近一周', value: '最近一周' },
           { label: '最近一月', value: '最近一月' }
         ],
-        categroy: [
-          { label: '全部', value: '全部' },
-          { label: '学业辅导', value: '学业辅导' },
-          { label: '师生互动', value: '师生互动' },
-          { label: '志愿服务', value: '志愿服务' },
-          { label: '社会实践', value: '社会实践' },
-          { label: '创新创业', value: '创新创业' },
-          { label: '文体活动', value: '文体活动' },
-          { label: '素质拓展', value: '素质拓展' },
-          { label: '国际交流', value: '国际交流' }
-        ],
-        full: [
-          { label: '全部', value: '全部' },
-          { label: '未满', value: '未满' },
-          { label: '已满', value: '已满' }
-        ]
+        categroy: [{ label: '全部', value: 0 }],
+        full: [{ label: '全部', value: '全部' }, { label: '未满', value: '未满' }, { label: '已满', value: '已满' }]
       }
     }
   },
   created() {
     this.getCategories()
-    this.getActivities()
+    // this.getActivities()
     if (!this.$user.login) {
       Events.$emit('shuzhi:login')
     }
@@ -222,9 +203,13 @@ export default {
       }
     },
     getCategories() {
-      console.log('cate')
       this.$http.get('/api/HuoDong/HuoDLB/GetHuoDLB').then(response => {
-        console.log(response)
+        var data = response.data.data.huodlb
+        for (let i = 0; i < data.length; i++) {
+          let type = data[i]
+          this.options.categroy.push({ value: type.HuoDLBName, label: type.HuoDLBName })
+        }
+        console.log(this.options.categroy)
       })
     },
     loadMoreEnrollsActivities: function(index, done) {
@@ -271,7 +256,7 @@ export default {
         .get('/api/HuoDong/HuoDXX/GetAllHuoDXX', {
           params: {
             huodmc: this.search.name,
-            huodlb: 0,
+            huodlb: this.search.categroy,
             huodddxq: this.search.location,
             huodsj: this.search.date,
             baomzt: this.search.full,

@@ -118,21 +118,25 @@ export default {
             // })
           })
       } else if (category === 'SHUNEWS') {
-        this.$http
-          .get('/news/shuinfo/', {
-            params: {
-              category: this.newsSingle.url.slice(27, 31),
-              msgID: this.newsSingle.url.slice(32, 37)
-            }
-          })
-          .then(response => {
-            this.newsSingle.detail = response.data.content
-            this.loading = false
-          })
-          .catch(err => {
-            this.loading = false
-            console.log(err)
-          })
+        this.open = false
+        this.loading = false
+        window.open(this.newsSingle.url)
+
+        // this.$http
+        //   .get('/shu/info/', {
+        //     params: {
+        //       category: this.newsSingle.url.slice(27, 31),
+        //       msgID: this.newsSingle.url.slice(32, 37)
+        //     }
+        //   })
+        //   .then(response => {
+        //     this.newsSingle.detail = response.data.content
+        //     this.loading = false
+        //   })
+        //   .catch(err => {
+        //     this.loading = false
+        //     console.log(err)
+        //   })
       } else if (category === 'JWC') {
         this.$http
           .get('/mobile/campusmessage/GetJwcMessageById', {
@@ -200,7 +204,7 @@ export default {
     loadMoreSHUNEWS: function(index, done) {
       this.page = index
       this.$http
-        .get('/TongZGG/TongZGG/GetShuNews', {
+        .get('api/TongZGG/TongZGG/GetShuNews', {
           params: {
             pageSize: 10,
             pageNumber: index

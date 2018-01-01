@@ -90,7 +90,7 @@ export default {
   created() {
     this.getRooms()
     this.getMyBookings()
-    this.getinfo()
+    // this.getinfo()
   },
   methods: {
     getMyBookings() {
@@ -124,7 +124,7 @@ export default {
           for (let item of response.data.data.changdxx) {
             let room = {
               cap: item.ChangDRL,
-              ID: item.id,
+              ID: item.Id,
               name: item.ChangDMC,
               aviliable: item.ChangDZT,
               type: item.ChangDSX
