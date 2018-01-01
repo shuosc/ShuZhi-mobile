@@ -73,20 +73,21 @@ export default {
   },
   methods: {
     login() {
-      this.open = false
-      Toast.create('成功登陆')
       this.$http
         .post('/api/Sys/Users/Login', {
           userName: this.userName,
           passWord: this.passWord
         })
         .then(response => {
-          this.$user.ID = this.userName
-          this.$user.name = '刘星'
-          this.$user.login = true
-          console.log(response)
-          this.open = false
-          Toast.create('成功登陆')
+          if (response.data.errorcode !== 0) {
+            Toast.create(response.data.message)
+          } else {
+            this.$user.ID = this.userName
+            this.$user.login = true
+            console.log(response)
+            this.open = false
+            Toast.create('成功登陆')
+          }
         })
     }
   }
@@ -94,13 +95,11 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~variables';
+@import '~variables'
 
-.pull-to-refresh-message {
-  z-index: 10;
-}
+.pull-to-refresh-message
+  z-index 10
 
-.q-tabs-head {
-  z-index: 20;
-}
+.q-tabs-head
+  z-index 20
 </style>
