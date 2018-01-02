@@ -22,11 +22,11 @@
           <q-item-tile sublabel>{{room.cap}}</q-item-tile>
         </q-item-main>
       </q-item>
-      <q-btn color="primary" class="full-width" @click="open = true">
+      <q-btn color="primary" class="full-width" @click="open()">
         预约
       </q-btn>
     </q-list>
-    <q-modal v-model="open" minimized ref="basicModal">
+    <q-modal v-model="modal" minimized ref="basicModal">
       <q-card flat>
         <q-card-title>请填写信息完成预约
           <span slot="subtitle" v-if="roomaviliable === false ">无法预约请更换日期或时间段</span>
@@ -36,11 +36,11 @@
           <q-input v-model="ID" type="number" float-label="学号" />
           <q-input v-model="phone" type="number" float-label="联系电话" />
           <q-input v-model="actname" float-label="活动名称" />
-          <q-datetime v-model="date" :min="today" float-label="预约日期" />
-          <q-datetime-range v-model="timerange" type="time" class="full-width" float-label="预约时间" default-from="Date" default-to="Date" />
+          <q-select v-model="date" float-label="预约日期" :options="dateAvaliable" />
+          <q-select v-model="time" class="full-width" float-label="预约时间" :options="timeAvaliable" />
         </q-card-main>
         <q-card-actions align="around">
-          <q-btn @click.native="open = false" label="Close" style="width:45%;" color="primary">取消</q-btn>
+          <q-btn @click.native="modal = false" label="Close" style="width:45%;" color="primary">取消</q-btn>
           <q-btn v-if="roomaviliable === true " @click.native="register()" label="Close" style="width:45%;" color="primary">预约</q-btn>
           <q-btn v-else :disable="!progress" color="negative">无法预约</q-btn>
         </q-card-actions>
@@ -60,29 +60,75 @@ export default {
     return {
       today,
       index: 0,
-      open: false,
+      modal: false,
       name: '',
       ID: '',
       phone: '',
-      date: today,
+      date: '',
       actname: '',
       roomaviliable: true,
-      timerange: {
-        from: today,
-        to: today
+      time: null,
+      totalAvaliable: {}
+    }
+  },
+  computed: {
+    timeAvaliable: function() {
+      if (this.totalAvaliable[this.date] === undefined) {
+        return []
+      } else {
+        return this.totalAvaliable[this.date].filter(function(item) {
+          return item.value.avaliable
+        })
       }
+    },
+    dateAvaliable: function() {
+      let avaliable = []
+      for (let date in this.totalAvaliable) {
+        avaliable.push({
+          label: date,
+          value: date
+        })
+      }
+      return avaliable
     }
   },
   methods: {
+    open() {
+      this.modal = true
+      this.$http
+        .get('/api/ChangDXX/ChangDXX/GetChangDSJ', {
+          params: {
+            id: this.room.ID
+          }
+        })
+        .then(response => {
+          console.log(response)
+          let data = response.data.data.changdxx
+          for (let i = 0; i < data.length; i++) {
+            let info = {}
+            info.label = data[i].ShiJD
+            info.value = {
+              date: data[i].RiQi,
+              time: data[i].ShiJD,
+              avaliable: data[i].ShiJZT
+            }
+            if (this.totalAvaliable[data[i].RiQi] === undefined) {
+              this.$set(this.totalAvaliable, data[i].RiQi, [info])
+            } else {
+              this.totalAvaliable[data[i].RiQi].push(info)
+            }
+          }
+          console.log(this.totalAvaliable)
+        })
+    },
     register() {
       Loading.show()
-      console.log(this.timerange)
       this.$http
         .post('/api/ChangDXX/ShiNCDYYXX/CreateShiNCDYYXX', {
           ZuZXXId: '2',
           ChangDXXId: this.room.ID,
-          YuYRQ: this.date.toJSON().slice(0, 10),
-          YuYSJD: `${this.timerange.from.getHours()}:${this.timerange.from.getMinutes()}-${this.timerange.to.getHours()}:${this.timerange.to.getMinutes()}`,
+          YuYRQ: this.date,
+          YuYSJD: this.time.time,
           XueHao: this.ID,
           XingMing: this.name,
           LianXDH: this.phone,

@@ -114,9 +114,6 @@ export default {
   created() {
     this.getCategories()
     // this.getActivities()
-    if (!this.$user.login) {
-      Events.$emit('shuzhi:login')
-    }
   },
   watch: {
     search: {
