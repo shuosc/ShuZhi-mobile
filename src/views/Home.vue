@@ -7,9 +7,6 @@
       <div slot="slide" class="no-padding" @click="open('https://mp.weixin.qq.com/s/KICkRjDIqzhpcD8i9oDIWQ')">
         <img src="/statics/slider_2.png" style="height:100%;width:100%;">
       </div>
-      <!-- <div slot="slide" class="bg-tertiary">
-        Slide 3
-      </div> -->
     </q-carousel>
     <div class="grid wrap">
       <q-card flat class="no-margin col-4" v-for="link in links" :key="link.name" @click="$router.push(link.url)">
@@ -26,9 +23,12 @@
 </template>
 
 <script>
-import { openURL } from 'quasar'
+import { QInput, openURL } from 'quasar'
 export default {
   name: 'hello',
+  components: {
+    QInput
+  },
   data() {
     return {
       links: [
@@ -38,10 +38,15 @@ export default {
         { img: 'statics/school-service.png', name: '场地预约', url: '/room-booking' },
         { img: 'statics/community-signup.png', name: '社团风采', url: '/clubs' },
         { img: 'statics/banshi-query.png', name: '事务办理', url: '/issues' }
-      ]
+      ],
+      name: 'text',
+      text: 'text'
     }
   },
   methods: {
+    oid(val) {
+      console.log(val)
+    },
     linkPC: function() {
       window.open('http://www.sz.shu.edu.cn')
     },

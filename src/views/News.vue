@@ -204,7 +204,7 @@ export default {
     loadMoreSHUNEWS: function(index, done) {
       this.page = index
       this.$http
-        .get('api/TongZGG/TongZGG/GetShuNews', {
+        .get('/TongZGG/TongZGG/GetShuNews', {
           params: {
             pageSize: 10,
             pageNumber: index

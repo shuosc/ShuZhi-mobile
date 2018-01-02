@@ -75,10 +75,12 @@
 </template>
 <script>
 import '../themes/docs-input.styl'
+import MInput from '@/MInput.vue'
 import RoomBookingCard from '@/RoomBookingCard.vue'
 export default {
   components: {
-    RoomBookingCard
+    RoomBookingCard,
+    MInput
   },
   data() {
     return {

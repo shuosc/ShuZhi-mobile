@@ -1,5 +1,4 @@
 <template>
-  <!-- Don't drop "q-app" class -->
   <div id="q-app">
     <header></header>
     <main>
@@ -12,33 +11,24 @@
             iSHU
           </q-toolbar-title>
           <q-btn flat v-if="$user.login">
-            <!-- <q-icon name="more vert" /> -->
             {{$user.ID}}
           </q-btn>
           <q-btn flat v-else @click="open=true">
-            <!-- <q-icon name="more vert" /> -->
             登陆
           </q-btn>
         </q-toolbar>
-        <!-- Navigation -->
-        <!-- <q-tabs slot="navigation">
-                          <q-route-tab slot="title"  to="/test-layout/about" replace hide="icon" label="About" />
-                          <q-route-tab slot="title"  to="/test-layout/toolbar" replace hide="icon" label="Toolbar" />
-                          <q-route-tab slot="title"  to="/test-layout/tabs" replace label="Tabs" />
-                          <q-route-tab slot="title"  to="/test-layout/drawer" replace label="Drawer" />
-                        </q-tabs> -->
-        <!-- sub-routes get injected here: -->
         <router-view />
+                <!-- <q-card-main> -->
+          <!-- <input @keydown.native.prevent name="name" v-model="name"/> -->
+          <!-- <q-input  name="name" v-model="name"  /> -->
+        <!-- </q-card-main> -->
         <q-modal v-model="open" minimized ref="basicModal" no-backdrop-dismiss>
           <q-card flat>
-            <q-card-title>登录</q-card-title>
-            <!-- <q-card-separator /> -->
             <q-card-main>
               <q-input v-model="userName" type="number" float-label="一卡通" />
               <q-input v-model="passWord" type="password" float-label="密码" />
             </q-card-main>
             <q-card-actions align="around">
-              <!-- <q-btn @click.native="open = false" label="Close" style="width:45%;">取消</q-btn> -->
               <q-btn @click.native="login()" class="full-width">登录</q-btn>
             </q-card-actions>
           </q-card>
@@ -62,14 +52,15 @@ export default {
     return {
       open: false,
       userName: '',
-      passWord: ''
+      passWord: '',
+      name: ''
     }
   },
   created() {
-    this.$q.events.$on('shuzhi:login', state => {
-      this.open = true
-      console.log('App became', state)
-    })
+    // this.$q.events.$on('shuzhi:login', state => {
+    //   this.open = true
+    //   console.log('App became', state)
+    // })
   },
   methods: {
     login() {

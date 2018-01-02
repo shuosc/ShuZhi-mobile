@@ -20,6 +20,7 @@ Vue.use(Quasar, {
   components: All,
   directives: All
 })
+
 Vue.config.productionTip = false
 // Vue.use(Quasar) // Install Quasar Framework
 
