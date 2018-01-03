@@ -3,7 +3,7 @@
     <q-tabs>
       <!-- Tabs - notice slot="title" -->
       <q-tab default slot="title" label="全部教室" name="tab-1" />
-      <q-tab slot="title" label="我的预约" name="tab-2" />
+      <q-tab slot="title" label="我的预约" name="tab-2" @click.native="getMyBookings"/>
       <!-- Targets -->
       <q-tab-pane name="tab-1">
         <q-card>
@@ -13,10 +13,10 @@
             </span>
           </q-card-main>
         </q-card>
-        <room-booking-card v-for="(room,index) in rooms" :room="room" :key="index" >
+        <room-booking-card v-for="(room,index) in rooms" :room="room" :key="index">
         </room-booking-card>
       </q-tab-pane>
-      <q-tab-pane name="tab-2">
+      <q-tab-pane name="tab-2" >
         <q-card v-for="(myroom,index) in myrooms" :myroom="myroom" :key="index">
           <q-card-title>
             {{myroom.roomname}}
@@ -74,8 +74,8 @@
   </div>
 </template>
 <script>
-import '../themes/docs-input.styl'
 import MInput from '@/MInput.vue'
+import { Events } from 'quasar'
 import RoomBookingCard from '@/RoomBookingCard.vue'
 export default {
   components: {
@@ -91,14 +91,19 @@ export default {
   },
   created() {
     this.getRooms()
-    this.getMyBookings()
+    // this.getMyBookings()
     // this.getinfo()
   },
   methods: {
     getMyBookings() {
-      this.$http.get('/api/ChangDXX/ShiNCDYYXX/GetShiNCDYYXXByXueHao', {
-        params: { xueHao: this.$user.ID, pageSize: 10, pageNumber: 1 }
-      })
+      if (!this.$user.login) {
+        Events.$emit('shuzhi:login', this.getMyBookings)
+        return
+      }
+      this.$http
+        .get('/api/ChangDXX/ShiNCDYYXX/GetShiNCDYYXXByXueHao', {
+          params: { xueHao: this.$user.ID, pageSize: 10, pageNumber: 1 }
+        })
         .then(response => {
           console.log(response)
           for (let item of response.data.data.shincdyyxx) {
@@ -118,9 +123,10 @@ export default {
         })
     },
     getRooms() {
-      this.$http.get('/api/ChangDXX/ChangDXX/GetShiNCDXX', {
-        params: { pageSize: 10, pageNumber: 1 }
-      })
+      this.$http
+        .get('/api/ChangDXX/ChangDXX/GetShiNCDXX', {
+          params: { pageSize: 10, pageNumber: 1 }
+        })
         .then(response => {
           console.log(response)
           for (let item of response.data.data.changdxx) {

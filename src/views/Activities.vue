@@ -97,7 +97,12 @@ export default {
       enrollsActivities: [],
       page: 0,
       options: {
-        location: [{ label: '全部', value: '全部' }, { label: '宝山', value: '宝山' }, { label: '嘉定', value: '嘉定' }, { label: '延长', value: '延长' }],
+        location: [
+          { label: '全部', value: '全部' },
+          { label: '宝山', value: '宝山' },
+          { label: '嘉定', value: '嘉定' },
+          { label: '延长', value: '延长' }
+        ],
         date: [
           { label: '全部', value: '全部' },
           { label: '今天', value: '今天' },
@@ -107,7 +112,11 @@ export default {
           { label: '最近一月', value: '最近一月' }
         ],
         categroy: [{ label: '全部', value: 0 }],
-        full: [{ label: '全部', value: '全部' }, { label: '未满', value: '未满' }, { label: '已满', value: '已满' }]
+        full: [
+          { label: '全部', value: '全部' },
+          { label: '未满', value: '未满' },
+          { label: '已满', value: '已满' }
+        ]
       }
     }
   },
@@ -204,12 +213,21 @@ export default {
         var data = response.data.data.huodlb
         for (let i = 0; i < data.length; i++) {
           let type = data[i]
-          this.options.categroy.push({ value: type.HuoDLBName, label: type.HuoDLBName })
+          this.options.categroy.push({
+            value: type.HuoDLBName,
+            label: type.HuoDLBName
+          })
         }
         console.log(this.options.categroy)
       })
     },
     loadMoreEnrollsActivities: function(index, done) {
+      if (!this.$user.login) {
+        done()
+        this.$refs.enrollsActivitiesInfiniteScroll.stop()
+        Events.$emit('shuzhi:login', this.enrollsRefresher)
+        return
+      }
       this.page = index
       this.$http
         .get('/api/HuoDong/HuoDBMXX/GetHuoDBMXX', {

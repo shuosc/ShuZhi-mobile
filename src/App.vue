@@ -13,16 +13,16 @@
           <q-btn flat v-if="$user.login">
             {{$user.ID}}
           </q-btn>
-          <q-btn flat v-else @click="open=true">
+          <q-btn flat v-else @click="$refs.basicModal.open()">
             登陆
           </q-btn>
         </q-toolbar>
         <router-view />
-                <!-- <q-card-main> -->
-          <!-- <input @keydown.native.prevent name="name" v-model="name"/> -->
-          <!-- <q-input  name="name" v-model="name"  /> -->
+        <!-- <q-card-main> -->
+        <!-- <input @keydown.native.prevent name="name" v-model="name"/> -->
+        <!-- <q-input  name="name" v-model="name"  /> -->
         <!-- </q-card-main> -->
-        <q-modal v-model="open" minimized ref="basicModal" no-backdrop-dismiss>
+        <q-modal minimized ref="basicModal" no-backdrop-dismiss>
           <q-card flat>
             <q-card-main>
               <q-input v-model="userName" type="number" float-label="一卡通" />
@@ -53,13 +53,14 @@ export default {
       open: false,
       userName: '',
       passWord: '',
-      name: ''
+      name: '',
+      callback: () => {}
     }
   },
   created() {
-    this.$q.events.$on('shuzhi:login', state => {
-      this.open = true
-      console.log('App became', state)
+    this.$q.events.$on('shuzhi:login', callback => {
+      this.$refs.basicModal.open()
+      this.callback = callback
     })
   },
   methods: {
@@ -75,9 +76,9 @@ export default {
           } else {
             this.$user.ID = this.userName
             this.$user.login = true
-            console.log(response)
-            this.open = false
+            this.$refs.basicModal.close()
             Toast.create('成功登陆')
+            this.callback()
           }
         })
     }
@@ -86,11 +87,13 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~variables'
+@import '~variables';
 
-.pull-to-refresh-message
-  z-index 10
+.pull-to-refresh-message {
+  z-index: 10;
+}
 
-.q-tabs-head
-  z-index 20
+.q-tabs-head {
+  z-index: 20;
+}
 </style>
