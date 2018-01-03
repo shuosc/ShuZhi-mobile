@@ -54,7 +54,7 @@
 
 <script>
 import MInput from '@/MInput.vue'
-import { Loading, Dialog } from 'quasar'
+import { Loading, Dialog, Events } from 'quasar'
 const today = new Date()
 export default {
   props: {
