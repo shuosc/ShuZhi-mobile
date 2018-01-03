@@ -101,6 +101,10 @@ export default {
   },
   methods: {
     open() {
+      if (!this.$user.login) {
+        Events.$emit('shuzhi:login')
+        return
+      }
       this.$refs.basicModal.open()
       this.$http
         .get('/api/ChangDXX/ChangDXX/GetChangDSJ', {
