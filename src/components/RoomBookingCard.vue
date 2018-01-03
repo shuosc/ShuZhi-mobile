@@ -153,7 +153,7 @@ export default {
               {
                 label: '确定',
                 handler: () => {
-                  // this.open = false
+                  this.$refs.basicModal.close()
                 }
               }
             ]
