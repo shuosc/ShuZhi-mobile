@@ -2,7 +2,7 @@
   <div style="height:100%">
     <q-carousel class="text-white" style="height:30vh;margin-bottom:5vh;">
       <div slot="slide" class="no-padding">
-        <img src="/statics/slider_1.png" style="height:100%;width:100%;max-width:500px;">
+        <img src="/statics/2018.jpg" style="height:100%;width:100%;max-width:500px;">
       </div>
       <div slot="slide" class="no-padding" @click="open('https://mp.weixin.qq.com/s/KICkRjDIqzhpcD8i9oDIWQ')">
         <img src="/statics/slider_2.png" style="height:100%;width:100%;">
