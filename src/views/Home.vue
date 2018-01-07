@@ -36,8 +36,8 @@ export default {
         { img: 'statics/school-activity.png', name: '校园活动', url: '/activities' },
         { img: 'statics/school-query.png', name: '校园查询', url: '/query' },
         { img: 'statics/school-service.png', name: '场地预约', url: '/room-booking' },
-        { img: 'statics/community-signup.png', name: '社团风采', url: '/clubs' },
-        { img: 'statics/banshi-query.png', name: '事务办理', url: '/issues' }
+        { img: 'statics/community-signup.png', name: '社团风采', url: '/clubs' }
+        // { img: 'statics/banshi-query.png', name: '事务办理', url: '/issues' }
       ],
       name: 'text',
       text: 'text'
