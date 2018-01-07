@@ -18,6 +18,8 @@
           {{link.name}}
         </q-card-main>
       </q-card>
+      <q-card flat class="no-margin col-4" >
+      </q-card>
     </div>
   </div>
 </template>
