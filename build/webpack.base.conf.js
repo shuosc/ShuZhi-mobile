@@ -1,5 +1,4 @@
-var
-  path = require('path'),
+var path = require('path'),
   webpack = require('webpack'),
   config = require('../config'),
   cssUtils = require('./css-utils'),
@@ -7,11 +6,9 @@ var
   merge = require('webpack-merge'),
   projectRoot = path.resolve(__dirname, '../'),
   ProgressBarPlugin = require('progress-bar-webpack-plugin'),
-  useCssSourceMap =
-    (env.dev && config.dev.cssSourceMap) ||
-    (env.prod && config.build.productionSourceMap)
+  useCssSourceMap = (env.dev && config.dev.cssSourceMap) || (env.prod && config.build.productionSourceMap)
 
-function resolve (dir) {
+function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
@@ -22,20 +19,18 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, '../dist'),
     publicPath: config[env.prod ? 'build' : 'dev'].publicPath,
-    filename: 'js/[name].js',
+    filename: 'js/[name].[hash].js',
     chunkFilename: 'js/[id].[chunkhash].js'
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
-    modules: [
-      resolve('src'),
-      resolve('node_modules')
-    ],
+    modules: [resolve('src'), resolve('node_modules')],
     alias: config.aliases
   },
   module: {
     rules: [
-      { // eslint
+      {
+        // eslint
         enforce: 'pre',
         test: /\.(vue|js)$/,
         loader: 'eslint-loader',
@@ -56,10 +51,13 @@ module.exports = {
         loader: 'vue-loader',
         options: {
           postcss: cssUtils.postcss,
-          loaders: merge({js: 'babel-loader'}, cssUtils.styleLoaders({
-            sourceMap: useCssSourceMap,
-            extract: env.prod
-          })),
+          loaders: merge(
+            { js: 'babel-loader' },
+            cssUtils.styleLoaders({
+              sourceMap: useCssSourceMap,
+              extract: env.prod
+            })
+          ),
           transformToRequire: {
             video: 'src',
             source: 'src',
@@ -93,9 +91,9 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': config[env.prod ? 'build' : 'dev'].env,
-      'DEV': env.dev,
-      'PROD': env.prod,
-      '__THEME': '"' + env.platform.theme + '"'
+      DEV: env.dev,
+      PROD: env.prod,
+      __THEME: '"' + env.platform.theme + '"'
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: env.prod,

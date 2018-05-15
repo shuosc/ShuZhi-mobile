@@ -15,7 +15,7 @@
     "es6-promise": "^4.1.1",
     "jshint": "^2.9.5",
     "quasar-extras": "0.0.8",
-    "quasar-framework": "git+https://git@github.com/quasarframework/quasar-edge.git",
+    "quasar-framework": "0.14.9",
     "unpipe": "^1.0.0",
     "vue": "^2.5.2",
     "vue-material-input": "^1.2.0",

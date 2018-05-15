@@ -4099,9 +4099,9 @@ quasar-extras@0.0.8:
   version "0.0.8"
   resolved "http://registry.npm.taobao.org/quasar-extras/download/quasar-extras-0.0.8.tgz#0defa7f982cbba185e3142b7eee9d3829928212a"
 
-"quasar-framework@git+https://git@github.com/quasarframework/quasar-edge.git":
-  version "0.14.8"
-  resolved "git+https://git@github.com/quasarframework/quasar-edge.git#bfa1b7afc973ffc5c249bfdd7a7a778ea616e9b5"
+quasar-framework@0.14.9:
+  version "0.14.9"
+  resolved "http://registry.npm.taobao.org/quasar-framework/download/quasar-framework-0.14.9.tgz#d04c0f642aef8b35f6366695c5b4fc08bfcf68c1"
 
 query-string@^4.1.0:
   version "4.3.4"
