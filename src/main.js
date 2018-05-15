@@ -16,6 +16,7 @@ import router from './router'
 import Quasar, * as All from 'quasar'
 import axios from 'axios'
 // ...
+var wx = require('weixin-js-sdk')
 Vue.use(Quasar, {
   components: All,
   directives: All
@@ -31,6 +32,7 @@ if (__THEME === 'mat') {
 // import 'quasar-extras/ionicons'
 // import 'quasar-extras/fontawesome'
 import 'quasar-extras/animate'
+Vue.prototype.$wx = wx
 Vue.prototype.$http = axios
 // Vue.prototype.$api = 'http://shuszapi.sh-sdhr.com'
 Vue.prototype.$user = {
