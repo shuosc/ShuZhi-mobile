@@ -45,6 +45,8 @@
 /*
  * Root component
  */
+import 'statics/material-icons.min.css'
+
 import { Toast, Dialog } from 'quasar'
 import Toolbar from '@/Toolbar.vue'
 export default {
