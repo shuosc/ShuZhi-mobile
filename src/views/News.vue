@@ -92,36 +92,51 @@ export default {
       this.loading = true
       if (category === 'XGB') {
         this.$http
-          .get('/mobile/campusmessage/GetXgbCampusMessageById', {
+          .get('/newsapi/Common/News/GetNewsById', {
             params: {
-              MsgID: this.newsSingle.MsgID
+              // type=tzgg_jwc&wbnewsid=31504
+              type: 'tzgg_xgb',
+              wbnewsid: this.newsSingle.MsgID
             }
           })
           .then(response => {
-            this.newsSingle.detail = response.data.Summary
+            console.log(response)
+            this.newsSingle.detail = response.data.data.wbcontent
             this.loading = false
             // this.$nextTick(() => {
             // })
           })
-      } else if (category === 'SHU') {
-        this.$http
-          .get('/mobile/campusmessage/GetCampusMessageById', {
-            params: {
-              MsgID: this.newsSingle.MsgID
-            }
-          })
-          .then(response => {
-            this.newsSingle.detail = response.data.Summary
-            this.loading = false
-            // this.$nextTick(() => {
-            //   this.open = true
-            // })
-          })
+      // } 
+      // else if (category === 'SHU') {
+        // it seems that this part is a shit mountain 
+        // F.R. 2019.12.17
+      //  this.$http
+      //    .get('/mobile/campusmessage/GetCampusMessageById', {
+      //      params: {
+      //        MsgID: this.newsSingle.MsgID
+      //      }
+      //    })
+      //   .then(response => {
+      //      this.newsSingle.detail = response.data.Summary
+      //      this.loading = false
+      //      // this.$nextTick(() => {
+      //      //   this.open = true
+      //      // })
+      //    })
       } else if (category === 'SHUNEWS') {
-        this.open = false
-        this.loading = false
-        window.open(this.newsSingle.url)
-
+        this.$http
+          .get('/newsapi/Common/News/GetNewsById', {
+            params: {
+              // type=tzgg&wbnewsid=31504
+              type: 'tzgg',
+              wbnewsid: this.newsSingle.MsgID
+            }
+          })
+          .then(response => {
+            console.log(response)
+            this.newsSingle.detail = response.data.data.wbcontent
+            this.loading = false
+          })
         // this.$http
         //   .get('/shu/info/', {
         //     params: {
@@ -139,14 +154,19 @@ export default {
         //   })
       } else if (category === 'JWC') {
         this.$http
-          .get('/mobile/campusmessage/GetJwcMessageById', {
+          .get('/newsapi/Common/News/GetNewsById', {
             params: {
-              MsgID: this.newsSingle.MsgID
+              // type=tzgg_jwc&wbnewsid=31504
+              type: 'tzgg_jwc',
+              wbnewsid: this.newsSingle.MsgID
             }
           })
           .then(response => {
-            this.newsSingle.detail = response.data.Summary
+            console.log(response)
+            this.newsSingle.detail = response.data.data.wbcontent
             this.loading = false
+            // this.$nextTick(() => {
+            // })
           })
       } else if (category === 'JYB') {
         this.loading = false
@@ -179,22 +199,26 @@ export default {
     loadMoreXGB: function(index, done) {
       this.page = index
       this.$http
-        .get('/mobile/campusmessage/getxgbmessagelist', {
+        .get('/newsapi/Common/News/GetNewsList', {
+          // rewrite to http://eportal.shu.edu.cn/api/Common/News/
           params: {
-            limit: 10,
-            currentPage: index
+            // type=tzgg_xgb&pageSize=10&pageIndex=1
+            type: 'tzgg_xgb',
+            pageSize: 10,
+            pageIndex: index
           }
         })
         .then(response => {
           console.log(response)
-          if (response.data.messagelist.length === 0) {
+          if (response.data.message !== 'success') {
             this.$refs.infiniteScrollXGB.stop()
           }
-          for (let item of response.data.messagelist) {
+          for (let item of response.data.data.news) {
             let news = {
-              title: item.Title,
+              title: item.wbtitle,
               detail: item.InfoContent,
-              MsgID: item.MsgID
+              // detail has been removed
+              MsgID: item.wbnewsid
             }
             this.news.XGB.push(news)
             done()
@@ -204,20 +228,21 @@ export default {
     loadMoreSHUNEWS: function(index, done) {
       this.page = index
       this.$http
-        .get('/TongZGG/TongZGG/GetShuNews', {
+        .get('/newsapi/Common/News/GetNewsList', {
           params: {
+            type: 'tzgg',
             pageSize: 10,
-            pageNumber: index
+            pageIndex: index
           }
         })
         .then(response => {
-          if (response.data.data.total === 0) {
+          if (response.data.message !== 'success') {
             this.$refs.infiniteScrollXGB.stop()
           }
-          for (let item of response.data.data.tongzgg) {
+          for (let item of response.data.data.news) {
             let news = {
-              title: item.Title,
-              url: item.Link
+              title: item.wbtitle,
+              MsgID: item.wbnewsid
             }
             this.news.SHUNEWS.push(news)
             done()
@@ -227,22 +252,22 @@ export default {
     loadMoreJWC: function(index, done) {
       this.page = index
       this.$http
-        .get('/mobile/campusmessage/getJwcmessagelist', {
+        .get('/newsapi/Common/News/GetNewsList', {
           params: {
-            limit: 10,
-            currentPage: index
+            type: 'tzgg_jwc',
+            pageSize: 10,
+            pageIndex: index
           }
         })
         .then(response => {
           console.log(response)
-          if (response.data.messagelist.length === 0) {
+          if (response.data.message !== 'success') {
             this.$refs.infiniteScrollJWC.stop()
           }
-          for (let item of response.data.messagelist) {
+          for (let item of response.data.data.news) {
             let news = {
-              title: item.Title,
-              detail: item.InfoContent,
-              MsgID: item.MsgID
+              title: item.wbtitle,
+              MsgID: item.wbnewsid
             }
             this.news.JWC.push(news)
             done()

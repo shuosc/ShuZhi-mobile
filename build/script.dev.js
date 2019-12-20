@@ -16,10 +16,14 @@ var
   uri = 'http://0.0.0.0:' + port
 
 console.log(' Starting dev server with "' + (process.argv[2] || env.platform.theme).bold + '" theme...')
-console.log(' Will listen at ' + uri.bold)
+console.log('\nNOTICE:\n')
 if (config.dev.openBrowser) {
-  console.log(' Browser will open when build is ready.\n')
+  console.log('   Browser will open when build is ready.\n')
+}else{
+  console.log('   Browser will NOT open automatically when build is ready.\n')
 }
+console.log('\n       Listening at ' + uri.bold+'\n\n')
+
 
 var compiler = webpack(webpackConfig)
 

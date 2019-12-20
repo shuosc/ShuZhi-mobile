@@ -30,7 +30,7 @@ module.exports = {
     env: require('./dev.env'),
     cssSourceMap: true,
     // auto open browser or not
-    openBrowser: true,
+    openBrowser: false,
     publicPath: '/',
     port: 8081,
 
@@ -45,17 +45,24 @@ module.exports = {
     // Also see /build/script.dev.js and search for "proxy api requests"
     // https://github.com/chimurai/http-proxy-middleware
     proxyTable: {
+      '/newsapi': {
+        target: 'http://eportal.shu.edu.cn/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/newsapi': '/api'
+        }
+      },
       '/api': {
-        target: 'http://sz.shuhelper.cn',
+        target: 'http://shuszapi.sh-sdhr.com',
         changeOrigin: true
         // pathRewrite: {
         //   '^/api': '^/api'
         // }
       },
-      '/shu': {
-        target: 'https://www.shuhelper.cn/api',
-        changeOrigin: true
-      },
+      // '/shu': {
+      //  target: 'https://www.shuhelper.cn/api',
+      //  changeOrigin: true
+      // },
       '/mobile': {
         target: 'http://api.shu.edu.cn',
         changeOrigin: true

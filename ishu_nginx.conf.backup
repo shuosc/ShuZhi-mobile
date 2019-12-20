@@ -1,0 +1,112 @@
+upstream django {
+  server unix:///var/www/ishu/pserver/iSHU/mysite.sock;
+}
+server {
+    listen 8000;
+    #server_name www.campus.shu.edu.cn 202.120.126.73;
+    server_name localhost
+    charset   utf-8;
+    ssl on;
+    ssl_certificate  cert/full_chain.pem;
+    ssl_certificate_key cert/private.key;
+    ssl_session_timeout 5m;
+    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+    ssl_prefer_server_ciphers on;
+
+  client_max_body_size 75M;
+
+  location /static {
+    alias /var/www/ishu;
+  }
+ location /statics {
+    alias /var/www/html/statics;
+  }
+  location = "/.well-known/pki-validation/fileauth.txt" {alias /var/www/html/.well-known/pki-validation/fileauth.txt;}
+  location /download {
+    alias /var/www/download;
+  }
+   location  = "/fTDvi69KET.txt" { alias /var/www/html/fTDvi69KET.txt;}
+  location / {
+    uwsgi_pass django;
+    include /var/www/ishu/pserver/iSHU/uwsgi_params; 
+  }
+	location /new {
+alias /var/www/html;
+
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+		# Uncomment to enable naxsi on this location
+		# include /etc/nginx/naxsi.rules
+	}
+ location /api/ {
+                            proxy_pass    http://shuszapi.sh-sdhr.com/api/;
+                            proxy_redirect default ;
+                 }
+ location /mobile/ {
+                            proxy_pass    http://api.shu.edu.cn/mobile/;
+                            proxy_redirect default ;
+                 }
+ location /TongZGG/ {
+                            proxy_pass    http://www.sz.shu.edu.cn/api/TongZGG/;
+                            proxy_redirect default ;
+                 }
+location /news/ {
+                            proxy_pass    https://www.shuhelper.cn/api/shu/info/;
+                            proxy_redirect default ;
+                 }
+		
+}
+
+
+server {
+  listen    80;
+  #server_name  www.campus.shu.edu.cn 202.120.126.73;
+  server_name localhost  
+  rewrite ^(.*)$ https://$host$1 permanent;
+  charset   utf-8;
+
+  client_max_body_size 75M;
+
+  location /static {
+    alias /var/www/ishu;
+  }
+ location /statics {
+    alias /var/www/html/statics;
+  }
+  location = "/.well-known/pki-validation/fileauth.txt" {alias /var/www/html/.well-known/pki-validation/fileauth.txt;}
+  location /download {
+    alias /var/www/download;
+  }
+
+  location / {
+    uwsgi_pass django;
+    include /var/www/ishu/pserver/iSHU/uwsgi_params; 
+  }
+	location /new {
+alias /var/www/html;
+
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+		# Uncomment to enable naxsi on this location
+		# include /etc/nginx/naxsi.rules
+	}
+ location /api/ {
+                            proxy_pass    http://shuszapi.sh-sdhr.com/api/;
+                            proxy_redirect default ;
+                 }
+ location /mobile/ {
+                            proxy_pass    http://api.shu.edu.cn/mobile/;
+                            proxy_redirect default ;
+                 }
+ location /TongZGG/ {
+                            proxy_pass    http://www.sz.shu.edu.cn/api/TongZGG/;
+                            proxy_redirect default ;
+                 }
+location /news/ {
+                            proxy_pass    https://www.shuhelper.cn/api/shu/info/;
+                            proxy_redirect default ;
+                 }
+}
